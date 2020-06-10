@@ -23,37 +23,6 @@ router.get('/', (req,res,next)=> {
 });
 
 
-
-
-
-
-
-
-
-app.post('/user/register', (req,res ))
-
-app.get('/user/login', (req,res))
-
-
-app.get(`/user/profile`, (req, res) => {
-  res.json({user});
-});
-
-app.get('/horse/search', (req, res) => {
-    res.json({horses}  );
-});
-
-app.post('/horse/add', (req, res) => {
-});
-
-app.get('/rider/search', (req, res) => {
-    res.json({riders}  );
-});
-
-app.post('/rider/add', (req, res) => {
-
-});
-
 server.listen(port, (err) => {
   if (err) {
     console.error('Something bad happened');

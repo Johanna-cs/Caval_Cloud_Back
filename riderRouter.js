@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 3000;
+const riderRouter = express.Router();
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
@@ -19,6 +20,22 @@ app.get('/rider/search', (req, res) => {
    }
   });
  });
+
+
+ app.post('/rider/add', (req, res) => {
+ 
+    const formData = req.body;
+   
+    connection.query('INSERT INTO rider SET ?', formData, (err, results) => {
+   
+      if (err) {
+        console.log(err);
+        res.status(500).send("Erreur lors de la sauvegarde de l'annonce cavalier");
+      } else {
+        res.sendStatus(200);
+      }
+    });
+  });
 
 server.listen(port, (err) => {
     if (err) {

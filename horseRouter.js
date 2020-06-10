@@ -1,13 +1,14 @@
 const express = require('express');
 const app = express();
 const port = 3000;
+const horseRouter = express.Router();
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
 
 
-app.get('/horse/search', (req, res) => {
+app.use('/horse/search', (req, res) => {
    connection.query('SELECT name from horse', (err, results) =>{
   if (err) {
  

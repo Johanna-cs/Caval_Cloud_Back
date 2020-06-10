@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 3000;
+const userRouter = express.Router();
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
@@ -19,7 +20,20 @@ app.get('/user', (req, res) => {
    }
   });
  });
-
+ app.post('/user/add', (req, res) => {
+ 
+    const formData = req.body;
+   
+    connection.query('INSERT INTO horse SET ?', formData, (err, results) => {
+   
+      if (err) {
+        console.log(err);
+        res.status(500).send("Erreur lors de la sauvegarde de l'annonce");
+      } else {
+        res.sendStatus(200);
+      }
+    });
+  });
 server.listen(port, (err) => {
     if (err) {
       console.error('Something bad happened');
