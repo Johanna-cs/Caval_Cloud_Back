@@ -1,35 +1,32 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-const router = express.Router();
-const connection = require('./conf');
-const userRouter = require('./userRouter');
-const horseRouter = require('./horseRouter')
-const riderRouter = require('./riderRouter')
+const userRouter = require('./routes/userRouter');
+const riderRouter = require('./routes/riderRouter')
+const horseRouter = require('./routes/horseRouter')
+const cors = require('cors')
+
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
 
 
-app.get('/user', (req, res) => {
-  connection.query('SELECT * from user', (err, results) =>{
- if (err) {
+app.get('/', (req, res) => {
+  res.send('home')
+})
 
-   // Si une erreur est survenue, alors on informe l'utilisateur de l'erreur
-   res.status(500).send('Erreur lors de la récupération des noms des Users');
- } else {
-
-   // Si tout s'est bien passé, on envoie le résultat de la requête SQL en tant que JSON.
-   res.json(results);
- }
-});
+// Utilisation des différents routers selon les routes définies ci-dessous :
+app.use('/users', userRouter)
+app.use('/riders', riderRouter)
+app.use('/horses', horseRouter)
 
 
-server.listen(port, (err) => {
+app.listen(port, (err) => {
   if (err) {
-    console.error('Something bad happened');
-  } else {
-    console.log(`server is listening on ${port}`);
+      throw new Error (err) }
+  else {
+      console.log("server is running")
   }
-});
+})
