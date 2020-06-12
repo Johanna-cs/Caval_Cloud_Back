@@ -12,14 +12,17 @@ app.use(express.urlencoded({
 }));
 
 
-router.get('/', (req,res,next)=> {
-  if (isConnected()){
-    return next();
-  } esle ;{
-    return res.redirect('/login');
-  }
-}, (req, res, next) => {
-  res.json({});
+app.get('/user', (req, res) => {
+  connection.query('SELECT * from user', (err, results) =>{
+ if (err) {
+
+   // Si une erreur est survenue, alors on informe l'utilisateur de l'erreur
+   res.status(500).send('Erreur lors de la récupération des noms des Users');
+ } else {
+
+   // Si tout s'est bien passé, on envoie le résultat de la requête SQL en tant que JSON.
+   res.json(results);
+ }
 });
 
 
