@@ -12,26 +12,22 @@ app.use(express.urlencoded({
 
 //Affiche l'ensemble des riders :
 riderRouter.get('/', (req,res) => {
-  connection.query(`SELECT * FROM rider`, (err, results) => {
-    if (err) {
-      res.send('erreur lors de la récupération de la liste des cavaliers')
-    } else {
-      res.send(results)
-    }
-  })
-});
+  models
+    .Rider
+    .findAll()
+    .then(x => res.json(x))
+
+  }
+)
 
 // Créer un rider :
 riderRouter.post('/', (req,res) => {
-  const formData = req.body
-  connection.query(`INSERT INTO rider SET ?`, formData, (err, results) => {
-    if (err) {
-      res.send(`erreur lors de la création d'un nouveau rider`)
-    } else {
-      res.send('succès lors de la création du nouveau rider')
-    }
-  })
+  models
+    .Rider
+    .create(req.body)
+    .then(x => res.json(x))
 });
+
 
 
 
