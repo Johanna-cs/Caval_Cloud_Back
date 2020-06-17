@@ -3,9 +3,9 @@ const models = require('./models');
 const app = express();
 const port = 3010;
 const userRouter = require('./routes/userRouter');
-const riderRouter = require('./routes/riderRouter')
-const horseRouter = require('./routes/horseRouter')
-const cors = require('cors')
+const riderRouter = require('./routes/riderRouter');
+const horseRouter = require('./routes/horseRouter');
+const cors = require('cors');
 
 app.use(cors())
 app.use(express.json());
