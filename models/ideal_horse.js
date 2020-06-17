@@ -12,30 +12,18 @@ module.exports = (sequelize, DataTypes) => {
 
         ideal_horse_heigth_min: {
             type : DataTypes.INTEGER,
-            validate : {
-                max : 3
-            }
         },
 
         ideal_horse_heigth_max: {
             type : DataTypes.INTEGER,
-            validate : {
-                max : 3
-            }
         },
 
         ideal_horse_min_age: {
             type : DataTypes.INTEGER,
-            validate : {
-                max : 2
-            }
         },
 
         ideal_horse_max_age: {
             type : DataTypes.INTEGER,
-            validate : {
-                max : 2
-            }
         },
 
         ideal_horse_temper: {

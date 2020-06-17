@@ -7,14 +7,14 @@ module.exports = (sequelize, DataTypes) => {
 
         rider_ID : {
             type: DataTypes.INTEGER,
-            autoIncrement: true,
+      //      autoIncrement: true,
             primaryKey: true,  
         },
 
         rider_firstname : {
             type: DataTypes.STRING,
             validate : {
-                allowNull: false,
+   //             allowNull: false,
                 max: 80
             }    
         },
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         rider_lastname : {
             type : DataTypes.STRING,
             validate : {
-                allowNull: false,
+   //             allowNull: true,
                 max : 80
             }
         },
@@ -36,16 +36,17 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         rider_age: {
-            type : DataTypes.INTEGER,
+            type : DataTypes.INTEGER,            
             validate : {
-                max : 5
+                max : 120
             }
+
         },
 
         rider_postal_code: {
             type : DataTypes.INTEGER,
             validate : {
-                max : 5
+                max : 99999
             }
         },
 
@@ -100,9 +101,7 @@ module.exports = (sequelize, DataTypes) => {
 
         rider_budget: {
             type : DataTypes.INTEGER,
-            validate : {
-                max : 10
-            }
+
         },
 
         rider_currency_budget: {
@@ -123,14 +122,14 @@ module.exports = (sequelize, DataTypes) => {
         rider_years_of_practice:{ 
             type : DataTypes.INTEGER,
             validate : {
-                max : 2
+                max : 99
             }
         },
 
         rider_gallop_level: {
             type : DataTypes.INTEGER,
             validate : {
-                max : 2
+                max : 99
             }
         },
 
