@@ -1,4 +1,5 @@
 const express = require('express');
+const models = require("./models"); 
 const app = express();
 const port = 3010;
 const userRouter = require('./routes/userRouter');
@@ -23,10 +24,8 @@ app.use('/riders', riderRouter)
 app.use('/horses', horseRouter)
 
 
-app.listen(port, (err) => {
-  if (err) {
-      throw new Error (err) }
-  else {
-      console.log("server is running")
-  }
-})
+models
+.sequelize
+.sync({force : true})
+.then(() => app.listen(port, () => console.log(`App listening on port 3000`)))
+

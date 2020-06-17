@@ -4,13 +4,12 @@
 module.exports = (sequelize, DataTypes) => {
 
     const User = sequelize.define('User', {
+
         user_ID : {
             type: DataTypes.INTEGER,
             autoIncrement: true,
-            primaryKey: true, 
-            validate : {
-                notNull: true,
-            }},
+            primaryKey: true,  
+            },
 
         user_firstname : {
             type: DataTypes.STRING,
@@ -27,8 +26,9 @@ module.exports = (sequelize, DataTypes) => {
                 max : 80,
             }
         },
-        user_email: {
+        user_email : {
             type : DataTypes.STRING,
+            unique: true,
             validate : {
                 isEmail: true,
                 notNull: true,
@@ -41,27 +41,23 @@ module.exports = (sequelize, DataTypes) => {
             validate : {
                 notNull : true,
                 min : 5,
+                max : 80,
             }
             
+        },
+
+        user_accept_CGV : {
+            type : DataTypes.BOOLEAN,
+            validate : {
+                notNull : true,
+                defaultValue : 0,
+            }
+        },
+
+        user_avatar : {
+            type : DataTypes.BLOB,
         }
 
         
     }, )
 }
-
-
-db.define('Entries', {
-    id: {
-        type: Seq.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
-    },
-    title: {
-        type: Seq.STRING,
-        allowNull: false
-    },
-    entry: {
-        type: Seq.TEXT,
-        allowNull: false
-    }
-})
