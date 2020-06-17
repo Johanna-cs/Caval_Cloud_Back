@@ -28,7 +28,7 @@ userRouter.post('/', (req,res) => {
     if (err) {
       res.send(`erreur lors de la création du nouvel utilisateur`)
     } else {
-      res.send(results)
+      res.send('succès lors de la création du nouveau utilisateur')
     }
   })
 });

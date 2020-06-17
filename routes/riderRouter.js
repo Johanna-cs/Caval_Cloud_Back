@@ -27,7 +27,7 @@ riderRouter.post('/', (req,res) => {
     if (err) {
       res.send(`erreur lors de la création d'un nouveau rider`)
     } else {
-      res.send(results)
+      res.send('succès lors de la création du nouveau rider')
     }
   })
 });

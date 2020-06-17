@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const horseRouter = express.Router();
-const connection = require('../conf');
 
 app.use(express.json());
 app.use(express.urlencoded({
@@ -23,11 +22,12 @@ horseRouter.get('/', (req,res) => {
 // Create a new horse :
 horseRouter.post('/', (req,res) => {
   const formData = req.body
+  console.log(formData)
   connection.query(`INSERT INTO horse SET ?`, formData, (err, results) => {
     if (err) {
-      res.send(`erreur lors de la création d'un nouveau cheval`)
+      res.send(err)
     } else {
-      res.send(results)
+      res.send('succès lors de la création du nouveau cheval')
     }
   })
 });
