@@ -29,6 +29,29 @@ horseRouter.post('/', (req,res) => {
 });
 
 
+// Update des infos utilisateur 
+horseRouter.put('/:id', (req,res) => {
+  models
+    .Horse
+    .update({horse_firstname : 'Nadir'},{
+      where: {
+        horse_ID: req.params.id
+      }
+    })
+    .then(x => res.json(x))
+});
+
+// delete d'un user
+horseRouter.delete('/:id', (req,res) => {
+  models
+    .Horse
+    .destroy({
+      where: {
+        horse_ID : req.params.id
+      }
+    })
+    .then(x => res.json(x))
+});
 
 
 module.exports = horseRouter

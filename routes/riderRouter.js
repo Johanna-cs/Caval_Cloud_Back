@@ -28,6 +28,29 @@ riderRouter.post('/', (req,res) => {
     .then(x => res.json(x))
 });
 
+// Update des infos rider 
+riderRouter.put('/:id', (req,res) => {
+  models
+    .Rider
+    .update({rider_firstname : 'Nadir'},{
+      where: {
+        rider_ID: req.params.id
+      }
+    })
+    .then(x => res.json(x))
+});
+
+// delete d'un rider
+riderRouter.delete('/:id', (req,res) => {
+  models
+    .Rider
+    .destroy({
+      where: {
+        rider_ID : req.params.id
+      }
+    })
+    .then(x => res.json(x))
+});
 
 
 module.exports = riderRouter
