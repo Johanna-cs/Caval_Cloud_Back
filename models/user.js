@@ -64,4 +64,4 @@ db.define('Entries', {
         type: Seq.TEXT,
         allowNull: false
     }
-
+})
