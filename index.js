@@ -26,6 +26,6 @@ app.use('/horses', horseRouter)
 
 models
 .sequelize
-.sync({force : true})
+.sync()
 .then(() => app.listen(port, () => console.log(`App listening on port ${port}`)))
 

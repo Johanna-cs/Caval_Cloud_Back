@@ -13,21 +13,21 @@ module.exports = (sequelize, DataTypes) => {
         ideal_rider_years_of_practice: {
             type : DataTypes.INTEGER,
             validate : {
-                max : 2
+                max : 99
             }
         },
 
         ideal_rider_gallop_level: {
             type : DataTypes.INTEGER,
             validate : {
-                max : 2
+                max : 99
             }
         },
 
         ideal_rider_age: {
             type : DataTypes.INTEGER,
             validate : {
-                max : 2
+                max : 120
             }
         },
 
