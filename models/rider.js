@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         rider_firstname : {
             type: DataTypes.STRING,
             validate : {
-                notNull: true,
+                allowNull: false,
                 max: 80
             }    
         },
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         rider_lastname : {
             type : DataTypes.STRING,
             validate : {
-                notNull: true,
+                allowNull: false,
                 max : 80
             }
         },
@@ -181,7 +181,7 @@ module.exports = (sequelize, DataTypes) => {
                 max : 80
             }
         } 
-        
-        })
+    }, {});
+    
+    return Rider;
 }
-

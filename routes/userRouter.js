@@ -2,8 +2,6 @@ const express = require('express');
 const app = express();
 const userRouter = express.Router();
 
-const connection = require('../conf');
-
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true

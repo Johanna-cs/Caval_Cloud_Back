@@ -49,6 +49,7 @@ module.exports = (sequelize, DataTypes) => {
                 max : 80,
             }
         }
-        
-    })
+    }, {});
+    
+    return Owner_presentation;
 }

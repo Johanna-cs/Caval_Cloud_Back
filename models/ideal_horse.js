@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = (sequelize, DataTypes) => {
 
     const Ideal_horse = sequelize.define('Ideal_horse', {
@@ -56,8 +58,7 @@ module.exports = (sequelize, DataTypes) => {
                 max : 80
             }
         },
-
-
+    }, {});
     
-    })
+    return Ideal_horse;
 }

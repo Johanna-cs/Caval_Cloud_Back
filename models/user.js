@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         user_firstname : {
             type: DataTypes.STRING,
             validate : {
-                notNull: true,
+                allowNull: false,
                 max: 80,
             }    
         },
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         user_lastname : {
             type : DataTypes.STRING,
             validate : {
-                notNull: true,
+                allowNull: false,
                 max : 80,
             }
         },
@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
             unique: true,
             validate : {
                 isEmail: true,
-                notNull: true,
+                allowNull: false,
                 max: 80,
             }
         },
@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
         user_password : {
             type : DataTypes.STRING,
             validate : {
-                notNull : true,
+                allowNull : false,
                 min : 5,
                 max : 80,
             }
@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
         user_accept_CGV : {
             type : DataTypes.BOOLEAN,
             validate : {
-                notNull : true,
+                allowNull : false,
                 defaultValue : 0,
             }
         },
@@ -59,5 +59,7 @@ module.exports = (sequelize, DataTypes) => {
         }
 
         
-    }, )
+    }, {});
+    
+    return User;
 }
