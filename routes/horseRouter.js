@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const horseRouter = express.Router();
+const models = require('../models'); 
+
 
 app.use(express.json());
 app.use(express.urlencoded({
