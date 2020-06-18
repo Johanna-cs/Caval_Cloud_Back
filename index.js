@@ -19,9 +19,9 @@ app.get('/', (req, res) => {
 })
 
 // Utilisation des différents routers selon les routes définies ci-dessous :
-app.use('/users', userRouter)
-app.use('/riders', riderRouter)
-app.use('/horses', horseRouter)
+app.use('/api/users', userRouter)
+app.use('/api/riders', riderRouter)
+app.use('/api/horses', horseRouter)
 
 
 models
