@@ -8,22 +8,22 @@ module.exports = (sequelize, DataTypes) => {
         user_ID : {
             type: DataTypes.INTEGER,
             autoIncrement: true,
-            primaryKey: true,  
+            primaryKey: true, 
+            allowNull: false, 
             },
 
         user_firstname : {
             type: DataTypes.STRING,
-//            allowNull: false,
+            allowNull: false,
             validate : {
-
                 max: 80,
             }    
         },
 
         user_lastname : {
             type : DataTypes.STRING,
+            allowNull: false,
             validate : {
-  //              allowNull: false,
                 max : 80,
             }
         },
@@ -31,17 +31,17 @@ module.exports = (sequelize, DataTypes) => {
         user_email : {
             type : DataTypes.STRING,
             unique: true,
+            allowNull: false,
             validate : {
                 isEmail: true,
- //               allowNull: false,
                 max: 80,
             }
         },
 
         user_password : {
             type : DataTypes.STRING,
+            allowNull: false,
             validate : {
- //               allowNull : false,
                 min : 5,
             }
             
@@ -49,8 +49,8 @@ module.exports = (sequelize, DataTypes) => {
 
         user_accept_CGV : {
             type : DataTypes.BOOLEAN,
+            allowNull: false,
             validate : {
-     //           allowNull : false,
 //                defaultValue : 0,
             }
         },
@@ -62,5 +62,10 @@ module.exports = (sequelize, DataTypes) => {
         
     }, {});
     
+    User.associate = models => {
+        User.hasOne(models.Rider)
+    }
+
+
     return User;
 }

@@ -7,22 +7,22 @@ module.exports = (sequelize, DataTypes) => {
 
         rider_ID : {
             type: DataTypes.INTEGER,
-      //      autoIncrement: true,
+           autoIncrement: true,
             primaryKey: true,  
         },
 
         rider_firstname : {
             type: DataTypes.STRING,
+            allowNull: false,
             validate : {
-   //             allowNull: false,
                 max: 80
             }    
         },
 
         rider_lastname : {
             type : DataTypes.STRING,
+            allowNull: false,
             validate : {
-   //             allowNull: true,
                 max : 80
             }
         },
@@ -182,5 +182,11 @@ module.exports = (sequelize, DataTypes) => {
         } 
     }, {});
     
+    Rider.associate = models => {
+        Rider.belongsToMany(models.Ideal_horse, {through : 'rider_ID', timestamps: false})
+        Rider.belongsTo(models.User)
+    }
+    
     return Rider;
+    
 }

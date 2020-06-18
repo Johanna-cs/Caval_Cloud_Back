@@ -45,6 +45,10 @@ module.exports = (sequelize, DataTypes) => {
         },
     
     }, {});
-    
+
+    Ideal_rider.associate = models => {
+        Ideal_rider.hasMany(models.Horse, {foreignKey: 'horse_ID'});
+    }
+
     return Ideal_rider;
 }
