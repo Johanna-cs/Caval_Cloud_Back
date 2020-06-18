@@ -13,7 +13,7 @@ app.use(express.urlencoded({
 userRouter.get('/', (req,res) => {
   models
     .User
-    .findAll()
+    .findAll({include:[models.Rider]})
     .then(x => res.json(x))
 
   }
