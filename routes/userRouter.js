@@ -48,7 +48,7 @@ userRouter.delete('/:id', (req,res) => {
         user_ID : req.params.id
       }
     })
-    .then(x => res.json(x))
+    .then(res.send("user deleted"))
 });
 
 module.exports = userRouter

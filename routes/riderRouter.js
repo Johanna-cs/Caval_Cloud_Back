@@ -49,7 +49,7 @@ riderRouter.delete('/:id', (req,res) => {
         rider_ID : req.params.id
       }
     })
-    .then(x => res.json(x))
+    .then(res.send("rider deleted"))
 });
 
 
