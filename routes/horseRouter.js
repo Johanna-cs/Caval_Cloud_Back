@@ -50,7 +50,7 @@ horseRouter.delete('/:id', (req,res) => {
         horse_ID : req.params.id
       }
     })
-    .then(x => res.json(x))
+    .then(res.send("horse deleted"))
 });
 
 

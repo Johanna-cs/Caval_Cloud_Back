@@ -28,10 +28,14 @@ userRouter.post('/', (req,res) => {
 });
 
 // Update des infos utilisateur 
+const newData = {
+  user_firstname: "hello"
+}
+
 userRouter.put('/:id', (req,res) => {
   models
     .User
-    .update({user_firstname : 'Nadir'},{
+    .update( newData ,{
       where: {
         user_ID: req.params.id
       }
@@ -48,7 +52,7 @@ userRouter.delete('/:id', (req,res) => {
         user_ID : req.params.id
       }
     })
-    .then(x => res.json(x))
+    .then(res.send("user deleted"))
 });
 
 module.exports = userRouter
