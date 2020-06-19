@@ -14,7 +14,7 @@ app.use(express.urlencoded({
 horseRouter.get('/', (req,res) => {
   models
     .Horse
-    .findAll({include: [models.Ideal_rider, models.Owner_presentation]})
+    .findAll({include: [models.Ideal_rider, models.Owner_presentation, models.User]})
     .then(x => res.json(x))
 
   }

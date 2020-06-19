@@ -64,6 +64,8 @@ module.exports = (sequelize, DataTypes) => {
     
     User.associate = models => {
         User.hasOne(models.Rider)
+        User.hasMany(models.Horse, {foreignKey: 'horse_ID'})
+
     }
 
 
