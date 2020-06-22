@@ -1,63 +1,31 @@
 const express = require('express');
+const models = require('./models'); 
 const app = express();
-const port = 3000;
-const router = express.Router();
-const connection = require('./conf');
-const userRouter = require('./userRouter');
-const horseRouter = require('./horseRouter')
-const riderRouter = require('./riderRouter')
+const port = 3010;
+const userRouter = require('./routes/userRouter');
+const riderRouter = require('./routes/riderRouter');
+const horseRouter = require('./routes/horseRouter');
+const cors = require('cors');
+
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
 
 
-router.get('/', (req,res,next)=> {
-  if (isConnected()){
-    return next();
-  } esle ;{
-    return res.redirect('/login');
-  }
-}, (req, res, next) => {
-  res.json({});
-});
+app.get('/', (req, res) => {
+  res.send('home')
+})
+
+// Utilisation des différents routers selon les routes définies ci-dessous :
+app.use('/api/users', userRouter)
+app.use('/api/riders', riderRouter)
+app.use('/api/horses', horseRouter)
 
 
+models
+.sequelize
+.sync()
+.then(() => app.listen(port, () => console.log(`App listening on port ${port}`)))
 
-
-
-
-
-
-
-app.post('/user/register', (req,res ))
-
-app.get('/user/login', (req,res))
-
-
-app.get(`/user/profile`, (req, res) => {
-  res.json({user});
-});
-
-app.get('/horse/search', (req, res) => {
-    res.json({horses}  );
-});
-
-app.post('/horse/add', (req, res) => {
-});
-
-app.get('/rider/search', (req, res) => {
-    res.json({riders}  );
-});
-
-app.post('/rider/add', (req, res) => {
-
-});
-
-server.listen(port, (err) => {
-  if (err) {
-    console.error('Something bad happened');
-  } else {
-    console.log(`server is listening on ${port}`);
-  }
-});
