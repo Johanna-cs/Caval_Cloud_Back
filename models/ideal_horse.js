@@ -47,6 +47,10 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
     }, {});
+
+    Ideal_horse.associate= models =>{
+        Ideal_horse.hasMany(models.Rider)
+    }
     
     return Ideal_horse;
 }

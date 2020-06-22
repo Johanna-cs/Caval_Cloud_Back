@@ -11,6 +11,7 @@ app.use(express.urlencoded({
 
 
 //Display all horses :
+
 horseRouter.get('/', (req,res) => {
   models
     .Horse
@@ -20,7 +21,8 @@ horseRouter.get('/', (req,res) => {
   }
 )
 
-// Créer un horse :
+// Create a new horse :
+
 horseRouter.post('/', (req,res) => {
   models
     .Horse
@@ -29,7 +31,8 @@ horseRouter.post('/', (req,res) => {
 });
 
 
-// Update des infos horse 
+// Update horse information from its ID :
+
 horseRouter.put('/:id', (req,res) => {
   models
     .Horse
@@ -41,7 +44,8 @@ horseRouter.put('/:id', (req,res) => {
     .then(x => res.json(x))
 });
 
-// delete d'un horse
+// Delete a horse from its ID :
+
 horseRouter.delete('/:id', (req,res) => {
   models
     .Horse

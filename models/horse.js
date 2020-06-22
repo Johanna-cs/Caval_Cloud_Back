@@ -10,103 +10,95 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,  
         },
 
-        horse_biography: {
+        horse_biography : {
             type: DataTypes.STRING,
             validate : {
                 max : 255
             }
         },
 
-        horse_name: {
+        horse_name : {
             type: DataTypes.STRING,
             validate : {
                 max : 80
             }
         },
 
-        horse_age: {
+        horse_age : {
             type: DataTypes.INTEGER,
         },
 
-        horse_height: {
+        horse_height : {
             type: DataTypes.INTEGER,
         },
 
-        horse_temper: {
+        horse_temper : {
             type: DataTypes.STRING,
             validate : {
                 max : 80
             }        },
 
-        horse_character: {
+        horse_character : {
             type: DataTypes.STRING,
             validate : {
                 max : 80
             }        },
 
-        horse_body_type: {
+        horse_body_type : {
             type: DataTypes.STRING,
             validate : {
                 max : 80
             }        },
 
-        horse_localisation:{
+        horse_localisation :{
             type: DataTypes.STRING,
             validate : {
                 max : 80
             }        },
 
-        horse_get_lesson:{
+        horse_get_lesson :{
             type: DataTypes.BOOLEAN,
         },
 
-        horse_get_coach:{
+        horse_get_coach :{
             type: DataTypes.BOOLEAN,
         },
 
-        horse_other_discipline:{
+        horse_other_discipline :{
             type: DataTypes.BOOLEAN,
         },
 
-        horse_mensuel_price:{
+        horse_mensuel_price :{
             type: DataTypes.INTEGER,
         },
 
-        horse_other_fees:{
+        horse_other_fees :{
             type: DataTypes.INTEGER,
         },
 
-        horse_stroll_along:{
+        horse_stroll_along :{
             type: DataTypes.BOOLEAN,
         },
 
-        horse_photos: {
+        horse_photos : {
             type: DataTypes.BLOB,
         },
 
-        horse_location_type:{
+        horse_location_type :{
             type: DataTypes.STRING,
             validate : {
                 max : 80
             }
         },
 
-        horse_competition_preferences:{
+        horse_competition_preferences :{
             type: DataTypes.STRING,
             validate : {
                 max : 80
             }
         },
 
-        horse_riding_frequency:{
-            type: DataTypes.STRING,
-            validate : {
-                max : 80
-            }
-
-        },
-
-        horse_accomodation_horse:{
+        horse_riding_frequency :{
             type: DataTypes.STRING,
             validate : {
                 max : 80
@@ -114,7 +106,7 @@ module.exports = (sequelize, DataTypes) => {
 
         },
 
-        horse_practice_structure:{
+        horse_accomodation_horse :{
             type: DataTypes.STRING,
             validate : {
                 max : 80
@@ -122,7 +114,15 @@ module.exports = (sequelize, DataTypes) => {
 
         },
 
-        horse_disciplines:{
+        horse_practice_structure :{
+            type: DataTypes.STRING,
+            validate : {
+                max : 80
+            }
+
+        },
+
+        horse_disciplines :{
             type: DataTypes.STRING,
             validate : {
                 max : 80
@@ -135,8 +135,12 @@ module.exports = (sequelize, DataTypes) => {
     {});
 
     Horse.associate = models => {
-        Horse.belongsTo(models.Ideal_rider, {foreignKey: 'horse_ID'})
-        Horse.belongsTo(models.Owner_presentation, {foreignKey: 'horse_ID'})
+        
+        Horse.belongsTo(models.Ideal_rider)
+        Horse.belongsTo(models.Owner_presentation)
+        Horse.belongsTo(models.User)
+        Horse.belongsToMany(models.User, {through: 'favorites_horses'})
+
     }
 
     return Horse;
