@@ -10,36 +10,36 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,  
         },
 
-        ideal_rider_years_of_practice: {
+        ideal_rider_years_of_practice : {
             type : DataTypes.INTEGER,
             validate : {
                 max : 99
             }
         },
 
-        ideal_rider_gallop_level: {
+        ideal_rider_gallop_level : {
             type : DataTypes.INTEGER,
             validate : {
                 max : 99
             }
         },
 
-        ideal_rider_age: {
+        ideal_rider_age : {
             type : DataTypes.INTEGER,
             validate : {
                 max : 120
             }
         },
 
-        ideal_rider_vehiculed: {
+        ideal_rider_vehiculed : {
             type : DataTypes.BOOLEAN
         },
 
-        ideal_rider_managed_horse: {
+        ideal_rider_managed_horse : {
             type : DataTypes.BOOLEAN
         },
 
-        ideal_rider_material: {
+        ideal_rider_material : {
             type: DataTypes.STRING,
             max: 80
         },
@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
     }, {});
 
     Ideal_rider.associate = models => {
-        Ideal_rider.hasMany(models.Horse, {foreignKey: 'horse_ID'});
+        Ideal_rider.hasMany(models.Horse);
     }
 
     return Ideal_rider;

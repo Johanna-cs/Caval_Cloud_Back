@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
             type : DataTypes.BLOB,
         },
 
-        rider_age: {
+        rider_age : {
             type : DataTypes.INTEGER,            
             validate : {
                 max : 120
@@ -43,49 +43,49 @@ module.exports = (sequelize, DataTypes) => {
 
         },
 
-        rider_postal_code: {
+        rider_postal_code : {
             type : DataTypes.INTEGER,
             validate : {
                 max : 99999
             }
         },
 
-        rider_biography: {
+        rider_biography : {
             type : DataTypes.STRING,
             validate : {
                 max : 255
             }
         },
 
-        rider_caracteristic1: {
+        rider_caracteristic1 : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
             }
         },
 
-        rider_caracteristic2: {
+        rider_caracteristic2 : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
             }
         },
 
-        rider_caracteristic3: {
+        rider_caracteristic3 : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
             }
         },
 
-        rider_caracteristic_riding1: {
+        rider_caracteristic_riding1 : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
             }
         },
 
-        rider_caracteristic_riding2: {
+        rider_caracteristic_riding2 : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
@@ -99,82 +99,82 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
 
-        rider_budget: {
+        rider_budget : {
             type : DataTypes.INTEGER,
 
         },
 
-        rider_currency_budget: {
+        rider_currency_budget : {
             type : DataTypes.STRING,
             validate : {
                 max : 5
             }
         },
 
-        rider_vehiculed: {
+        rider_vehiculed : {
             type : DataTypes.BOOLEAN
         },
 
-        rider_managed_horse: {
+        rider_managed_horse : {
             type : DataTypes.BOOLEAN
         },
 
-        rider_years_of_practice:{ 
+        rider_years_of_practice :{ 
             type : DataTypes.INTEGER,
             validate : {
                 max : 99
             }
         },
 
-        rider_gallop_level: {
+        rider_gallop_level : {
             type : DataTypes.INTEGER,
             validate : {
                 max : 99
             }
         },
 
-        rider_others_disciplines: {
+        rider_others_disciplines : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
             }
         },
 
-        rider_get_lessons: {
+        rider_get_lessons : {
             type : DataTypes.BOOLEAN
         },
 
-        rider_get_coach: {
+        rider_get_coach : {
             type : DataTypes.BOOLEAN
         },
 
-        rider_competition: {
+        rider_competition : {
             type : DataTypes.BOOLEAN
         },
 
-        rider_ridercommunication: {
+        rider_ridercommunication : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
             }
         },
 
-        rider_riding_frequency:{
+        rider_riding_frequency :{
             type : DataTypes.STRING,
             validate : {
                 max : 80
             }
         },
         
-        rider_own_saddle: {
+        rider_own_saddle : {
             type : DataTypes.BOOLEAN
         },
 
-        rider_own_care_equipement: {
+        rider_own_care_equipement : {
             type : DataTypes.BOOLEAN
         },
 
-        rider_disciplines:{
+        rider_disciplines : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
@@ -183,7 +183,7 @@ module.exports = (sequelize, DataTypes) => {
     }, {});
     
     Rider.associate = models => {
-        Rider.belongsToMany(models.Ideal_horse, {through : 'rider_ID', timestamps: false})
+        Rider.belongsTo(models.Ideal_horse)
         Rider.belongsTo(models.User)
     }
     

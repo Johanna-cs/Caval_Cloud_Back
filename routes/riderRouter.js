@@ -10,7 +10,8 @@ app.use(express.urlencoded({
 }));
 
 
-//Affiche l'ensemble des riders :
+// Display all riders :
+
 riderRouter.get('/', (req,res) => {
   models
     .Rider
@@ -20,7 +21,8 @@ riderRouter.get('/', (req,res) => {
   }
 )
 
-// Créer un rider :
+// Create a new rider :
+
 riderRouter.post('/', (req,res) => {
   models
     .Rider
@@ -28,7 +30,8 @@ riderRouter.post('/', (req,res) => {
     .then(x => res.json(x))
 });
 
-// Update des infos rider 
+// Update rider information from its ID :
+
 riderRouter.put('/:id', (req,res) => {
   models
     .Rider
@@ -40,7 +43,8 @@ riderRouter.put('/:id', (req,res) => {
     .then(x => res.json(x))
 });
 
-// delete d'un rider
+// Delete a rider from its ID :
+
 riderRouter.delete('/:id', (req,res) => {
   models
     .Rider

@@ -57,14 +57,22 @@ module.exports = (sequelize, DataTypes) => {
 
         user_avatar : {
             type : DataTypes.BLOB,
-        }
+        },
 
+        user_isAdmin : {
+            type : DataTypes.BOOLEAN,
+            allowNull : false,
+            defaultValue : 0
+        }
         
     }, {});
     
     User.associate = models => {
         User.hasOne(models.Rider)
-        User.hasMany(models.Horse, {foreignKey: 'horse_ID'})
+        User.hasMany(models.Horse)
+        User.belongsToMany(models.Horse, {through: 'favorites_horses'})
+
+        
 
     }
 

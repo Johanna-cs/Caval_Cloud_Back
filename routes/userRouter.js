@@ -9,7 +9,7 @@ app.use(express.urlencoded({
   extended: true
 }));
 
-// Affiche l'ensemble des utilisateurs :
+// Display all users :
 userRouter.get('/', (req,res) => {
   models
     .User
@@ -19,7 +19,7 @@ userRouter.get('/', (req,res) => {
   }
 )
 
-// Création d'un nouvel utilisateur :
+// Create a new user
 userRouter.post('/', (req,res) => {
   models
     .User
@@ -27,7 +27,7 @@ userRouter.post('/', (req,res) => {
     .then(x => res.json(x))
 });
 
-// Update des infos utilisateur 
+// Update user information from its ID
 const newData = {
   user_firstname: "hello"
 }
@@ -43,7 +43,7 @@ userRouter.put('/:id', (req,res) => {
     .then(x => res.json(x))
 });
 
-// delete d'un user
+// Delete user from its ID
 userRouter.delete('/:id', (req,res) => {
   models
     .User
