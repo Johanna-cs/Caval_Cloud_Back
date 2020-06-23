@@ -1,4 +1,6 @@
-  {
+'use strict';
+
+module.exports = (sequelize, DataTypes) => {
 
     const Horse = sequelize.define('Horse', { 
         
