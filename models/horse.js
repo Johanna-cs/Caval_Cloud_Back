@@ -1,6 +1,4 @@
-'use strict';
-
-module.exports = (sequelize, DataTypes) => {
+  {
 
     const Horse = sequelize.define('Horse', { 
         
@@ -137,6 +135,10 @@ module.exports = (sequelize, DataTypes) => {
     Horse.associate = models => {
         Horse.belongsTo(models.Ideal_rider, {foreignKey: 'horse_ID'})
         Horse.belongsTo(models.Owner_presentation, {foreignKey: 'horse_ID'})
+        Horse.belongsTo(models.User, {foreignKey: 'horse_ID'})
+
+
+
     }
 
     return Horse;
