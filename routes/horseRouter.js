@@ -36,11 +36,11 @@ horseRouter.post('/', (req,res) => {
 horseRouter.put('/:id', (req,res) => {
   models
     .Horse
-    .update({horse_name : 'Nadir'},{
+    .update(req.body, {
       where: {
-        horse_ID: req.params.id
+          horse_ID: req.params.id
       }
-    })
+  })
     .then(x => res.json(x))
 });
 

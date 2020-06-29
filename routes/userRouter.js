@@ -28,14 +28,12 @@ userRouter.post('/', (req,res) => {
 });
 
 // Update user information from its ID
-const newData = {
-  user_firstname: "hello"
-}
+
 
 userRouter.put('/:id', (req,res) => {
   models
     .User
-    .update( newData ,{
+    .update(req.body ,{
       where: {
         user_ID: req.params.id
       }

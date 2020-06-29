@@ -35,7 +35,7 @@ riderRouter.post('/', (req,res) => {
 riderRouter.put('/:id', (req,res) => {
   models
     .Rider
-    .update({rider_firstname : 'Nadir'},{
+    .update(req.body,{
       where: {
         rider_ID: req.params.id
       }
