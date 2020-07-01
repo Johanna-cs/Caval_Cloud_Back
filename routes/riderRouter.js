@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const riderRouter = express.Router();
 const models = require('../models'); 
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 
 app.use(express.json());
@@ -10,7 +12,7 @@ app.use(express.urlencoded({
 }));
 
 
-// Display all riders :
+// // Display all riders :
 
 riderRouter.get('/', (req,res) => {
   models
@@ -21,6 +23,21 @@ riderRouter.get('/', (req,res) => {
   }
 )
 
+// Display Rider with query 
+riderRouter.get('/riders?', (req,res) => {
+  models
+  .Rider
+  .findAll({
+    
+    where: {
+      rider_age : req.query.age,
+      rider_postal_code : req.query.postal
+    },
+
+    include : [models.Ideal_horse]
+})
+.then(x => res.json(x))
+})
 // Create a new rider :
 
 riderRouter.post('/', (req,res) => {
