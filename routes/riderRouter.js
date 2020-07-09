@@ -34,14 +34,17 @@ riderRouter.get('/search/?', (req,res) => {
   .Rider
   .findAll({
     where: {
-      rider_age : req.query.age ||{[Op.lt]: 100},
+      rider_age : req.query.age ||{[Op.lt]: 100}|| {[Op.like] : null},
       rider_postal_code : req.query.postal || {[Op.lt]: 99999} || {[Op.like] : null},
+      rider_gallop_level : req.query.level || {[Op.lt]: 7} || {[Op.like] : null},
+      rider_vehiculed : req.query.vehiculed,
+      rider_budget : {[Op.lt]: req.query.budget} || {[Op.lt]: 10000}
+
       // rider_caracteristic_riding1 : 
       // rider_caracteristic_riding2 :
       // rider_caracteristic3 : 
-      // rider_budget :
-      // rider_vehiculed :
       // rider_gallop_level :
+
 
     },
 
