@@ -10,7 +10,6 @@ const idealRiderRouter = require('./routes/idealRiderRouter')
 const ownerRouter = require('./routes/ownerRouter');
 
 
-
 const cors = require('cors');
 
 app.use(cors())
