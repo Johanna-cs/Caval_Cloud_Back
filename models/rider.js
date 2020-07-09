@@ -37,9 +37,7 @@ module.exports = (sequelize, DataTypes) => {
 
         rider_age : {
             type : DataTypes.INTEGER,            
-            validate : {
-                max : 120
-            }
+      
 
         },
 
