@@ -99,11 +99,13 @@ module.exports = (sequelize, DataTypes) => {
 
         rider_budget : {
             type : DataTypes.INTEGER,
+            defaultValue: 0
 
         },
 
         rider_currency_budget : {
             type : DataTypes.STRING,
+            defaultValue: '€',
             validate : {
                 max : 5
             }
@@ -147,7 +149,8 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         rider_competition : {
-            type : DataTypes.BOOLEAN
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
         },
 
         rider_ridercommunication : {

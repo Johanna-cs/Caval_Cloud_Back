@@ -30,23 +30,31 @@ riderRouter.get('/', (req,res) => {
 
 // Display Rider with query 
 riderRouter.get('/search/?', (req,res) => {
-  const min = Number(req.query.age) - 3
-  const max = Number(req.query.age) + 3
+  const min = Number(req.query.age) - 3 || 0
+  const max = Number(req.query.age) + 3 || 99
+  const level = Number(req.query.level) || 0
+  const vehiculed = req.query.vehiculed
+  const budget = req.query.budget || 0
+  const competition = req.query.competition || 0
+  const getLesson = req.query.lesson || 0
+  
+
   models
   .Rider
   .findAll({
     where: {
-      rider_age :{ [Op.between]: [ Number(req.query.age) - 3 , Number(req.query.age) + 3]} ||{[Op.lt]: 100} || {[Op.like] : null}, // Si l'age est précisé, on sort un résultat avec une fourchette de + ou - 3, sinon on sort tous les résultats
-      rider_postal_code : req.query.postal || {[Op.lt]: 99999} || {[Op.like] : null},
-      // rider_gallop_level : req.query.level || {[Op.lt]: 7} || {[Op.like] : null},
-      // rider_vehiculed : req.query.vehiculed,
-      // rider_budget : {[Op.lt]: req.query.budget} || {[Op.lt]: 10000}
+      rider_age : { [Op.between]: [ min , max ]} , // Si l'age est précisé, on sort un résultat avec une fourchette de + ou - 3, sinon on sort tous les résultats
+      rider_postal_code : req.query.postal || {[Op.lt]: 99999}, // Si le CP est précisé on en tient compte, sinon on prends tous les CP + les CP non renseignés
+      rider_gallop_level : {[Op.gte] : level }, // Soit le level est précisé, sinon on prend tous les résultats
+      rider_vehiculed : vehiculed || {[Op.or] : [0,1]}, // Soit l'information est précisée, soit on propose tous les cavaliers, peu importe si véhiculé ou non
+      rider_budget : { [Op.gte] : budget }, //
+      rider_competition : competition,
+      rider_get_lessons : getLesson,
 
       // rider_caracteristic_riding1 : 
       // rider_caracteristic_riding2 :
       // rider_caracteristic3 : 
-      // rider_gallop_level :
-
+      // concours possible ou non
 
     },
 
