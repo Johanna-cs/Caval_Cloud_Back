@@ -2,7 +2,11 @@ const express = require('express');
 const app = express();
 const horseRouter = express.Router();
 const models = require('../models'); 
-
+const Sequelize = require('sequelize');
+const { Op } = require("sequelize")
+const db = Sequelize.db;
+const bodyParser = require('body-parser');
+// const owner = require('../models/owner_presentation')
 
 app.use(express.json());
 app.use(express.urlencoded({
@@ -20,6 +24,31 @@ horseRouter.get('/', (req,res) => {
 
   }
 )
+
+
+// Display horse with query 
+horseRouter.get('/search/?', (req,res) => {
+  const stroll = req.query.stroll
+  const min = Number(req.query.height) - 10 || 0
+  const max = Number(req.query.height) + 10 || 200
+
+  models
+  .Horse
+  .findAll({
+    where: {
+      
+      // horse_localisation : req.query.localisation ,
+      horse_mensuel_price : {[Op.gte]: req.query.price},
+      horse_stroll_along : stroll || {[Op.or] : [0,1]}, // Soit l'information est précisée, soit on propose tous les chevaux, peu importe si la balade  est possible ou non 
+      horse_height  : { [Op.between]: [ min , max ]} , // Si la taille  est précisé, on sort un résultat avec une fourchette de + ou - 10, sinon on sort tous les résultats
+      '$owner_age$': req.query.age,
+    },    
+
+    include : [models.Ideal_rider, models.Owner_presentation, models.User]
+  })
+  .then(x => res.json(x))
+
+})
 
 // Create a new horse :
 

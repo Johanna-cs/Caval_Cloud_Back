@@ -34,7 +34,7 @@ ownerRouter.put('/:id', (req,res) => {
     .Owner_presentation
     .update(req.body, {
       where: {
-          Owner_presentation_ID: req.params.id
+          Owner_ID: req.params.id
       }
   })
     .then(x => res.json(x))
@@ -48,7 +48,7 @@ ownerRouter.delete('/:id', (req,res) => {
     .Owner_presentation
     .destroy({
       where: {
-        Owner_presentation_ID : req.params.id
+        Owner_ID : req.params.id
       }
     })
     .then(res.send("Owner deleted"))

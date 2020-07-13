@@ -29,13 +29,6 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
 
-        owner_horse_name : {
-            type : DataTypes.STRING,
-            validate : {
-                max : 80,
-            }
-        },
-
         owner_biography : {
             type : DataTypes.STRING,
             validate : {

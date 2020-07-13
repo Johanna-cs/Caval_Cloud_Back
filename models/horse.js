@@ -58,14 +58,17 @@ module.exports = (sequelize, DataTypes) => {
 
         horse_get_lesson :{
             type: DataTypes.BOOLEAN,
+            defaultValue : 0
         },
 
         horse_get_coach :{
             type: DataTypes.BOOLEAN,
+            defaultValue : 0
         },
 
         horse_other_discipline :{
             type: DataTypes.BOOLEAN,
+            defaultValue : 0
         },
 
         horse_mensuel_price :{
@@ -78,6 +81,7 @@ module.exports = (sequelize, DataTypes) => {
 
         horse_stroll_along :{
             type: DataTypes.BOOLEAN,
+            defaultValue : 0
         },
 
         horse_photos : {
