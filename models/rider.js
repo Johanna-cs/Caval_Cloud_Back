@@ -36,13 +36,14 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         rider_age : {
-            type : DataTypes.INTEGER,            
-      
+            type : DataTypes.INTEGER,
+            defaultValue: 0,            
 
         },
 
         rider_postal_code : {
             type : DataTypes.INTEGER,
+            defaultValue: 0,
             validate : {
                 max : 99999
             }
@@ -112,11 +113,14 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         rider_vehiculed : {
-            type : DataTypes.BOOLEAN
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
         },
 
         rider_managed_horse : {
-            type : DataTypes.BOOLEAN
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
+
         },
 
         rider_years_of_practice :{ 
@@ -128,6 +132,7 @@ module.exports = (sequelize, DataTypes) => {
 
         rider_gallop_level : {
             type : DataTypes.INTEGER,
+            defaultValue: 0,
             validate : {
                 max : 99
             }
@@ -135,17 +140,20 @@ module.exports = (sequelize, DataTypes) => {
 
         rider_others_disciplines : {
             type : DataTypes.STRING,
+            defaultValue : '',
             validate : {
                 max : 80
             }
         },
 
         rider_get_lessons : {
-            type : DataTypes.BOOLEAN
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
         },
 
         rider_get_coach : {
-            type : DataTypes.BOOLEAN
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
         },
 
         rider_competition : {
@@ -162,25 +170,41 @@ module.exports = (sequelize, DataTypes) => {
 
         rider_riding_frequency :{
             type : DataTypes.STRING,
+            defaultValue: '',
             validate : {
                 max : 80
             }
         },
         
+        rider_fixed_day : {
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
+
+        },
+
         rider_own_saddle : {
-            type : DataTypes.BOOLEAN
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
         },
 
         rider_own_care_equipement : {
-            type : DataTypes.BOOLEAN
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
         },
 
         rider_disciplines : {
             type : DataTypes.STRING,
+            defaultValue: '',
             validate : {
                 max : 80
             }
-        } 
+        },
+
+        rider_agree_other_discipline : {
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
+        },
+
     }, {});
     
     Rider.associate = models => {
