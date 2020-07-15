@@ -107,9 +107,6 @@ module.exports = (sequelize, DataTypes) => {
         rider_currency_budget : {
             type : DataTypes.STRING,
             defaultValue: '€',
-            validate : {
-                max : 5
-            }
         },
 
         rider_vehiculed : {
