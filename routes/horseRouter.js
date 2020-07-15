@@ -40,8 +40,12 @@ horseRouter.get('/search/?', (req,res) => {
       // horse_localisation : req.query.localisation ,
       horse_mensuel_price : {[Op.gte]: req.query.price},
       horse_stroll_along : stroll || {[Op.or] : [0,1]}, // Soit l'information est précisée, soit on propose tous les chevaux, peu importe si la balade  est possible ou non 
-      horse_height  : { [Op.between]: [ min , max ]} , // Si la taille  est précisé, on sort un résultat avec une fourchette de + ou - 10, sinon on sort tous les résultats
-      '$owner_age$': req.query.age,
+      horse_height  : { [Op.between]: [ min , max ]} || {[Op.lte] : 250}  , // Si la taille  est précisé, on sort un résultat avec une fourchette de + ou - 10, sinon on sort tous les résultats
+      horse_get_lesson : req.query.getlesson || {[Op.or] : [0,1]}, // le cheval peut prendre des leçons ou non 
+      horse_get_coach : req.query.getcoach || {[Op.or] : [0,1]}, // le cheval peut prendre un coach exterieur ou non       
+      horse_competition_preferences : req.query.competition || {[Op.or] : [0,1]},
+      '$owner_age$': req.query.age, // selection du cheval en fonction de l'age du owner
+
     },    
 
     include : [models.Ideal_rider, models.Owner_presentation, models.User]
