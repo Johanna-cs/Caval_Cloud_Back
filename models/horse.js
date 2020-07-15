@@ -72,6 +72,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
         },
 
+        horse_currency_budget : {
+            type : DataTypes.STRING,
+            defaultValue: '€',
+            validate : {
+                max : 5
+            }
+        },
+
         horse_other_fees :{
             type: DataTypes.INTEGER,
         },
@@ -105,6 +113,12 @@ module.exports = (sequelize, DataTypes) => {
             }
 
         },
+        
+        horse_fixed_day : {
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
+
+        },
 
         horse_accomodation_horse :{
             type: DataTypes.STRING,
@@ -128,6 +142,11 @@ module.exports = (sequelize, DataTypes) => {
                 max : 80
             }
 
+        },
+
+        horse_material : {
+            type: DataTypes.STRING,
+            max: 80
         },
 
         
