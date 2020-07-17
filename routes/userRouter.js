@@ -9,6 +9,17 @@ app.use(express.urlencoded({
   extended: true
 }));
 
+// Display one user : 
+userRouter.get('/:id', (req,res) => {
+  models
+    .User
+    .findOne({
+      where: {
+        user_ID : req.params.id
+      }})
+    .then(x => res.json(x))
+})
+
 // Display all users :
 userRouter.get('/', (req,res) => {
   models
@@ -28,8 +39,6 @@ userRouter.post('/', (req,res) => {
 });
 
 // Update user information from its ID
-
-
 userRouter.put('/:id', (req,res) => {
   models
     .User
