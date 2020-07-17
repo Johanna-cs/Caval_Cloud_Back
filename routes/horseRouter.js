@@ -48,12 +48,20 @@ horseRouter.get('/search/?', (req,res) => {
       horse_get_lesson : req.query.getlesson || {[Op.or] : [0,1]}, // le cheval peut prendre des leçons ou non 
       horse_get_coach : req.query.getcoach || {[Op.or] : [0,1]}, // le cheval peut prendre un coach exterieur ou non       
       horse_competition_preferences : req.query.competition || {[Op.like]: '%non%'},
-
+      horse_location_type:{ [Op.like]: '%req.query.loctype%'} || {[Op.all]:'SELECT 1' } ,
+      horse_accomodation_horse: { [Op.like]: '%req.query.accomodation%'} || {[Op.all]:'SELECT 1' },
+      horse_get_lesson :req.query.lesson|| 0,
+      horse_get_coach: req.query.coach||0,
+      horse_own_saddle : req.query.saddle || 0,
       // trouver une solution pour remplacer le OP.any et creer un champ array 
       // horse_temper: {[Op.like] : { [Op.any]: [req.query.temper1, req.query.temper2]}} || {[Op.gt]: { [Op.all]: literal('SELECT 1') }}, //{[Op.like] : { [Op.any]: ['affectueux','froid', 'joueur','sensible',''] }} , 
       // horse_body_type : {[Op.like] : { [Op.any]: [req.query.bodytype1, req.query.bodytype2]}}  || {[Op.gt]: { [Op.all]: literal('SELECT 2') }} ,// || {},//{[Op.like] : { [Op.any]: ['fin','classique','porteur','lourd','']}} ,
+      // horse_disciplines 
+      // horse_practice_structure  structure à disposition 
 
-      '$owner_age$': { [Op.between]: [ minOwnerAge , maxOwnerAge ]} || {[Op.lte] : 100} // selection du cheval en fonction de l'age du owner
+      '$owner_age$': { [Op.between]: [ minOwnerAge , maxOwnerAge ]} || {[Op.lte] : 100}, // selection du cheval en fonction de l'age du owner
+      '$owner_communication_frequences$': req.query.comfreq||{[Op.or]: [1,3 ]}, // Selection du cheval en fonction de la frequence de communication du owner
+      '$owner_horse_work$': { [Op.like]: '%req.query.horsework%'} || {[Op.or]: ['ouvert', 'normal', 'cadré' ]},
 
     },    
 

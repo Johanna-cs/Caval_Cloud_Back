@@ -71,10 +71,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
         },
 
-        // horse_currency_budget : {
-        //     type : DataTypes.STRING,
-        //     defaultValue: '€',
-        // },
+        horse_currency_budget : {
+            type : DataTypes.STRING,
+            defaultValue: '€',
+        },
 
         horse_other_fees :{
             type: DataTypes.INTEGER,
@@ -134,6 +134,11 @@ module.exports = (sequelize, DataTypes) => {
             }
 
         },
+        horse_own_saddle : {
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
+        },
+
 
         
     }, 
