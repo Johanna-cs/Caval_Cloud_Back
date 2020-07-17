@@ -47,11 +47,11 @@ horseRouter.get('/search/?', (req,res) => {
       horse_age: { [Op.between]: [ minHorseAge , maxHorseAge ]} || {[Op.lte] : 30},
       horse_get_lesson : req.query.getlesson || {[Op.or] : [0,1]}, // le cheval peut prendre des leçons ou non 
       horse_get_coach : req.query.getcoach || {[Op.or] : [0,1]}, // le cheval peut prendre un coach exterieur ou non       
-      horse_competition_preferences : req.query.competition || {[Op.or] : [0,1]},
+      horse_competition_preferences : req.query.competition || {[Op.like]: '%non%'},
 
       // trouver une solution pour remplacer le OP.any et creer un champ array 
-      // horse_temper: {[Op.like] : { [Op.any]: [req.query.temper1, req.query.temper2]}}, //|| {[Op.gt]: { [Op.all]: literal('SELECT 1') }}, //{[Op.like] : { [Op.any]: ['affectueux','froid', 'joueur','sensible',''] }} , 
-      // horse_body_type : {[Op.like] : { [Op.any]: [req.query.bodytype1, req.query.bodytype2]}},// || {},//{[Op.like] : { [Op.any]: ['fin','classique','porteur','lourd','']}} ,
+      // horse_temper: {[Op.like] : { [Op.any]: [req.query.temper1, req.query.temper2]}} || {[Op.gt]: { [Op.all]: literal('SELECT 1') }}, //{[Op.like] : { [Op.any]: ['affectueux','froid', 'joueur','sensible',''] }} , 
+      // horse_body_type : {[Op.like] : { [Op.any]: [req.query.bodytype1, req.query.bodytype2]}}  || {[Op.gt]: { [Op.all]: literal('SELECT 2') }} ,// || {},//{[Op.like] : { [Op.any]: ['fin','classique','porteur','lourd','']}} ,
 
       '$owner_age$': { [Op.between]: [ minOwnerAge , maxOwnerAge ]} || {[Op.lte] : 100} // selection du cheval en fonction de l'age du owner
 
