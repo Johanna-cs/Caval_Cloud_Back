@@ -28,6 +28,20 @@ riderRouter.get('/', (req,res) => {
   }
 )
 
+
+// Display rider information from its ID :
+
+riderRouter.get('/:id', (req,res) => {
+  models
+    .Rider
+    .findAll({
+      where: {
+        rider_ID: req.params.id
+      }
+    })
+    .then(x => res.json(x))
+});
+
 // Display Rider with query 
 riderRouter.get('/search/?', (req,res) => {
   const min = Number(req.query.age) - 3 || 0
