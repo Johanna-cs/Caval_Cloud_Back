@@ -21,6 +21,20 @@ horseRouter.get('/', (req,res) => {
   }
 )
 
+// Display horse information from its ID :
+
+horseRouter.get('/:id', (req,res) => {
+  models
+    .Horse
+    .findAll({
+      where: {
+        horse_ID: req.params.id
+      }
+    })
+    .then(x => res.json(x))
+});
+
+
 // Create a new horse :
 
 horseRouter.post('/', (req,res) => {

@@ -56,20 +56,20 @@ module.exports = (sequelize, DataTypes) => {
                 max : 80
             }        },
 
-        horse_get_lesson :{
+
+        horse_coaching_here:{
             type: DataTypes.BOOLEAN,
+            defaultValue: 0
         },
 
-        horse_get_coach :{
+        horse_external_coach:{
             type: DataTypes.BOOLEAN,
+            defaultValue: 0
         },
 
-        horse_other_discipline :{
-            type: DataTypes.BOOLEAN,
-        },
-
-        horse_mensuel_price :{
+        horse_budget :{
             type: DataTypes.INTEGER,
+            defaultValue: 0,
         },
 
         horse_currency_budget : {
@@ -80,12 +80,19 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
 
+        horse_rider_need_own_saddle : {
+            type: DataTypes.BOOLEAN,
+            defaultValue: 0,
+
+        },
+
         horse_other_fees :{
             type: DataTypes.INTEGER,
         },
 
         horse_stroll_along :{
             type: DataTypes.BOOLEAN,
+            defaultValue: 0,
         },
 
         horse_photos : {
@@ -120,7 +127,7 @@ module.exports = (sequelize, DataTypes) => {
 
         },
 
-        horse_accomodation_horse :{
+        horse_accomodation :{
             type: DataTypes.STRING,
             validate : {
                 max : 80
