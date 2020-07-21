@@ -53,10 +53,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull : false,
             defaultValue : 0
         },
-        user_createdAt:{
-            type: Sequelize.DATE,
-            defaultValue: Sequelize.NOW
-        }
+        // user_createdAt:{
+        //     type: Sequelize.DATE,
+        //     defaultValue: Sequelize.NOW
+        // }
         
     },
      {
