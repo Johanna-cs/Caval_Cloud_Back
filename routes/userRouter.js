@@ -9,7 +9,7 @@ app.use(express.urlencoded({
   extended: true
 }));
 
-// Display one user : 
+// Display one user from its ID: 
 userRouter.get('/:id', (req,res) => {
   models
     .User
@@ -60,6 +60,19 @@ userRouter.delete('/:id', (req,res) => {
       }
     })
     .then(res.send("user deleted"))
+});
+
+// Add a result within user favorites
+userRouter.post('/add-favorites/horse/:userId', (req,res) => {
+  const userId = 1
+  // const resultId = req.params.resultId
+  models
+    .favorites_horses
+    .create({
+        UserUserID : userId,
+        // HorseHorseID : resultId
+      })
+    .then(res.send(`a new favorite for user ${userId} has been created`))
 });
 
 module.exports = userRouter
