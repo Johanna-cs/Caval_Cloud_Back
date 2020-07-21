@@ -1,7 +1,11 @@
 {
   "development": {
     "username": "root",
+<<<<<<< HEAD
     "password": "N@d!r-13",
+=======
+    "password": "Pyewaket83!",
+>>>>>>> 9dd4177ba4dda223edafb665d448af8f6e19faab
     "database": "caval_cloud",
     "host": "127.0.0.1",
     "dialect": "mysql",
@@ -9,7 +13,7 @@
   },
   "test": {
     "username": "root",
-    "password": "s8@%0oui23sLso",
+    "password": "Pyewaket83!",
     "database": "caval_cloud",
     "host": "127.0.0.1",
     "dialect": "mysql",
@@ -17,7 +21,7 @@
   },
   "production": {
     "username": "root",
-    "password": "s8@%0oui23sLso",
+    "password": "Pyewaket83!",
     "database": "caval_cloud",
     "host": "127.0.0.1",
     "dialect": "mysql",

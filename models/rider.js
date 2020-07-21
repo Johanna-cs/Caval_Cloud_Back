@@ -13,7 +13,9 @@ module.exports = (sequelize, DataTypes) => {
 
         rider_firstname : {
             type: DataTypes.STRING,
-            allowNull: false,
+            defaultValue: '',
+            // allowNull: false,
+
             validate : {
                 max: 80
             }    
@@ -21,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
 
         rider_lastname : {
             type : DataTypes.STRING,
-            allowNull: false,
+            defaultValue: '',
+            // allowNull: false,
             validate : {
                 max : 80
             }
@@ -54,37 +57,38 @@ module.exports = (sequelize, DataTypes) => {
             validate : {
                 max : 255
             }
+
         },
 
-        rider_caracteristic1 : {
+        rider_selfWord1 : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
             }
         },
 
-        rider_caracteristic2 : {
+        rider_selfWord2 : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
             }
         },
 
-        rider_caracteristic3 : {
+        rider_selfWord3 : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
             }
         },
 
-        rider_caracteristic_riding1 : {
+        rider_ridingWord1 : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
             }
         },
 
-        rider_caracteristic_riding2 : {
+        rider_ridingWord2 : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
@@ -143,19 +147,22 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
 
-        rider_get_lessons : {
+        rider_coaching_here : {
             type : DataTypes.BOOLEAN,
             defaultValue: 0
         },
 
-        rider_get_coach : {
+        rider_external_coach : {
             type : DataTypes.BOOLEAN,
             defaultValue: 0
         },
 
         rider_competition : {
-            type : DataTypes.BOOLEAN,
-            defaultValue: 0
+            type : DataTypes.STRING,
+            validate : {
+                max : 80
+            },
+            defaultValue: ''
         },
 
         rider_ridercommunication : {

@@ -52,23 +52,49 @@ module.exports = (sequelize, DataTypes) => {
                 max : 80
             }        },
 
+<<<<<<< HEAD
         horse_get_lesson :{
             type: DataTypes.BOOLEAN,
             defaultValue : 0
         },
+=======
+>>>>>>> 9dd4177ba4dda223edafb665d448af8f6e19faab
 
-        horse_get_coach :{
+        horse_coaching_here:{
             type: DataTypes.BOOLEAN,
+<<<<<<< HEAD
             defaultValue : 0
+=======
+            defaultValue: 0
+>>>>>>> 9dd4177ba4dda223edafb665d448af8f6e19faab
         },
 
-        horse_other_discipline :{
+        horse_external_coach:{
             type: DataTypes.BOOLEAN,
+<<<<<<< HEAD
             defaultValue : 0
+=======
+            defaultValue: 0
+>>>>>>> 9dd4177ba4dda223edafb665d448af8f6e19faab
         },
 
-        horse_mensuel_price :{
+        horse_budget :{
             type: DataTypes.INTEGER,
+            defaultValue: 0,
+        },
+
+        horse_currency_budget : {
+            type : DataTypes.STRING,
+            defaultValue: '€',
+            validate : {
+                max : 5
+            }
+        },
+
+        horse_rider_need_own_saddle : {
+            type: DataTypes.BOOLEAN,
+            defaultValue: 0,
+
         },
 
         horse_currency_budget : {
@@ -82,7 +108,11 @@ module.exports = (sequelize, DataTypes) => {
 
         horse_stroll_along :{
             type: DataTypes.BOOLEAN,
+<<<<<<< HEAD
             defaultValue : 0
+=======
+            defaultValue: 0,
+>>>>>>> 9dd4177ba4dda223edafb665d448af8f6e19faab
         },
 
         horse_photos : {
@@ -110,8 +140,14 @@ module.exports = (sequelize, DataTypes) => {
             }
 
         },
+        
+        horse_fixed_day : {
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
 
-        horse_accomodation_horse :{
+        },
+
+        horse_accomodation :{
             type: DataTypes.STRING,
             validate : {
                 max : 80
@@ -139,6 +175,11 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: 0
         },
 
+
+        horse_material : {
+            type: DataTypes.STRING,
+            max: 80
+        },
 
         
     }, 

@@ -1,16 +1,16 @@
 const express = require('express')
-const users = express.Router()
+const userRouter = express.Router()
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const models = require('../models')
-users.use(cors())
+userRouter.use(cors())
 
 process.env.SECRET_KEY = 'secret'
 
 
 // creer un compte register
-users.post('/register', (req, res) => {
+userRouter.post('/register', (req, res) => {
     const today = new Date()
     const userData = {
         user_firstname: req.body.user_firstname,
@@ -45,10 +45,27 @@ users.post('/register', (req, res) => {
         })
         .catch(err => res.send(err))
 })
+// Display one user from its ID: 
+userRouter.get('/:id', (req,res) => {
+  models
+    .User
+    .findOne({
+      where: {
+        user_ID : req.params.id
+      }})
+    .then(x => res.json(x))
+})
 
+// Display all users :
+userRouter.get('/', (req,res) => {
+  models
+    .User
+    .findAll({include:[models.Rider]})
+    .then(x => res.json(x))
+})
 // se connecter login 
 
-users.post('/login', (req, res) => {
+userRouter.post('/login', (req, res) => {
   models
   .User.findOne({
     where: {
@@ -73,8 +90,15 @@ users.post('/login', (req, res) => {
 })
 
 // profil
-users.get('/profile', (req, res) => {
+userRouter.get('/profile', (req, res) => {
   const decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
+    .User
+    .create(req.body)
+    .then(x => res.json(x))
+});
+
+// Update user information from its ID
+userRouter.put('/:id', (req,res) => {
   models
   .User
   .findOne({
@@ -95,7 +119,7 @@ users.get('/profile', (req, res) => {
 })
 
 // Display all users :
-users.get('/', (req,res) => {
+userRouter.get('/', (req,res) => {
   models
     .User
     .findAll({include:[models.Rider]})
@@ -105,7 +129,7 @@ users.get('/', (req,res) => {
 )
 
 // Delete user from its ID
-users.delete('/:id', (req,res) => {
+userRouter.delete('/:id', (req,res) => {
   models
     .User
     .destroy({
@@ -116,4 +140,18 @@ users.delete('/:id', (req,res) => {
     .then(res.send("user deleted"))
 });
 
-module.exports = users
+
+// Add a result within user favorites
+userRouter.post('/add-favorites/horse/:userId', (req,res) => {
+  const userId = 1
+  // const resultId = req.params.resultId
+  models
+    .favorites_horses
+    .create({
+        UserUserID : userId,
+        // HorseHorseID : resultId
+      })
+    .then(res.send(`a new favorite for user ${userId} has been created`))
+});
+
+module.exports= userRouter
