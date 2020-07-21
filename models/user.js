@@ -1,4 +1,5 @@
- 'use strict';
+'use strict';
+
 
 
 module.exports = (sequelize, DataTypes) => {
@@ -14,18 +15,12 @@ module.exports = (sequelize, DataTypes) => {
 
         user_firstname : {
             type: DataTypes.STRING,
-            allowNull: false,
-            validate : {
-                max: 80,
-            }    
+            allowNull: false,   
         },
 
         user_lastname : {
             type : DataTypes.STRING,
-            allowNull: false,
-            validate : {
-                max : 80,
-            }
+            allowNull: false
         },
 
         user_email : {
@@ -33,26 +28,20 @@ module.exports = (sequelize, DataTypes) => {
             unique: true,
             allowNull: false,
             validate : {
-                isEmail: true,
-                max: 80,
+                isEmail: true
             }
         },
 
         user_password : {
             type : DataTypes.STRING,
-            allowNull: false,
-            validate : {
-                min : 5,
-            }
-            
+            allowNull: false
         },
 
         user_accept_CGV : {
             type : DataTypes.BOOLEAN,
             allowNull: false,
-            validate : {
-//                defaultValue : 0,
-            }
+            defaultValue : 0,
+
         },
 
         user_avatar : {
@@ -63,9 +52,17 @@ module.exports = (sequelize, DataTypes) => {
             type : DataTypes.BOOLEAN,
             allowNull : false,
             defaultValue : 0
+        },
+        user_createdAt:{
+            type: Sequelize.DATE,
+            defaultValue: Sequelize.NOW
         }
         
-    }, {});
+    },
+     {
+        timestamps: false,
+        underscored: true
+     });
     
     User.associate = models => {
         User.hasOne(models.Rider)

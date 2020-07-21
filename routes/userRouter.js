@@ -1,16 +1,101 @@
-const express = require('express');
-const app = express();
-const userRouter = express.Router();
-const models = require('../models'); 
+const express = require('express')
+const users = express.Router()
+const cors = require('cors')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
+const models = require('../models')
+users.use(cors())
+
+process.env.SECRET_KEY = 'secret'
 
 
-app.use(express.json());
-app.use(express.urlencoded({
-  extended: true
-}));
+// creer un compte register
+users.post('/register', (req, res) => {
+    const today = new Date()
+    const userData = {
+        user_firstname: req.body.user_firstname,
+        user_lastname: req.body.user_lastname,
+        user_email: req.body.user_email,
+        user_password: req.body.user_password,
+        createdAt: today
+    }
+    models
+        .User
+        .findOne({
+            where: {
+              user_email: req.body.user_email
+            }
+        })
+        .then(user => {
+            if (!user) {
+                bcrypt.hash(req.body.user_password, 10, (err, hash) => {
+                    userData.user_password = hash
+                    models
+                    .User
+                    .create(userData)
+                        .then(user => {
+                            res.json({ status: user.user_email + ' registered' })
+                        })
+                        .catch(err => res.status(400).send(err))
+                })
+            }
+            else {
+                res.json({ error: "User already exist" })
+            }
+        })
+        .catch(err => res.send(err))
+})
+
+// se connecter login 
+
+users.post('/login', (req, res) => {
+  models
+  .User.findOne({
+    where: {
+      user_email: req.body.user_email
+    }
+  })
+    .then(user => {
+      if (user) {
+        if (bcrypt.compareSync(req.body.user_password, user.user_password)) {
+          let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
+            expiresIn: 1440
+          })
+          res.send(token)
+        }
+      } else {
+        res.status(400).json({ error: 'User does not exist' })
+      }
+    })
+    .catch(err => {
+      res.status(400).json({ error: err })
+    })
+})
+
+// profil
+users.get('/profile', (req, res) => {
+  const decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
+  models
+  .User
+  .findOne({
+    where: {
+      user_ID: decoded.user_ID
+    }
+  })
+    .then(user => {
+      if (user) {
+        res.json(user)
+      } else {
+        res.send('User does not exist')
+      }
+    })
+    .catch(err => {
+      res.send('error: ' + err)
+    })
+})
 
 // Display all users :
-userRouter.get('/', (req,res) => {
+users.get('/', (req,res) => {
   models
     .User
     .findAll({include:[models.Rider]})
@@ -19,30 +104,8 @@ userRouter.get('/', (req,res) => {
   }
 )
 
-// Create a new user
-userRouter.post('/', (req,res) => {
-  models
-    .User
-    .create(req.body)
-    .then(x => res.json(x))
-});
-
-// Update user information from its ID
-
-
-userRouter.put('/:id', (req,res) => {
-  models
-    .User
-    .update(req.body ,{
-      where: {
-        user_ID: req.params.id
-      }
-    })
-    .then(x => res.json(x))
-});
-
 // Delete user from its ID
-userRouter.delete('/:id', (req,res) => {
+users.delete('/:id', (req,res) => {
   models
     .User
     .destroy({
@@ -53,4 +116,4 @@ userRouter.delete('/:id', (req,res) => {
     .then(res.send("user deleted"))
 });
 
-module.exports = userRouter
+module.exports = users

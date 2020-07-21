@@ -29,10 +29,10 @@ horseRouter.get('/', (req,res) => {
 // Display horse with query 
 horseRouter.get('/search/?', (req,res) => {
   const stroll = req.query.stroll
-  const min = Number(req.query.height) - 10 || 0
-  const max = Number(req.query.height) + 10 || 200
-  const minHorseAge = Number (req.query.horseage) -3 || 0
-  const maxHorseAge = Number (req.query.horseage) +3 || 30
+  const min = Number(req.query.height) - 5 || 0
+  const max = Number(req.query.height) + 5 || 200
+  const minHorseAge = Number (req.query.horseage) -2 || 0
+  const maxHorseAge = Number (req.query.horseage) +2 || 30
   const minOwnerAge = Number (req.query.ownerage) -3 || 0
   const maxOwnerAge = Number (req.query.ownerage) +3 || 100
   models
@@ -47,12 +47,12 @@ horseRouter.get('/search/?', (req,res) => {
       horse_age: { [Op.between]: [ minHorseAge , maxHorseAge ]} || {[Op.lte] : 30},
       horse_get_lesson : req.query.getlesson || {[Op.or] : [0,1]}, // le cheval peut prendre des leçons ou non 
       horse_get_coach : req.query.getcoach || {[Op.or] : [0,1]}, // le cheval peut prendre un coach exterieur ou non       
-      horse_competition_preferences : req.query.competition || {[Op.like]: '%non%'},
-      horse_location_type:{ [Op.like]: '%req.query.loctype%'} || {[Op.all]:'SELECT 1' } ,
-      horse_accomodation_horse: { [Op.like]: '%req.query.accomodation%'} || {[Op.all]:'SELECT 1' },
-      horse_get_lesson :req.query.lesson|| 0,
-      horse_get_coach: req.query.coach||0,
-      horse_own_saddle : req.query.saddle || 0,
+      horse_competition_preferences : req.query.competition || {[Op.like]: '%non%'}, // preference du owner concernant la possibilité 
+      horse_location_type:{ [Op.like]: '%req.query.loctype%'} || {[Op.all]:'SELECT 1' } ,//
+      horse_accomodation_horse: { [Op.like]: '%req.query.accomodation%'} || {[Op.all]:'SELECT 1' },//
+      horse_get_lesson :req.query.lesson|| 0,//
+      horse_get_coach: req.query.coach||0,//
+      horse_own_saddle : req.query.saddle || 0,//
       // trouver une solution pour remplacer le OP.any et creer un champ array 
       // horse_temper: {[Op.like] : { [Op.any]: [req.query.temper1, req.query.temper2]}} || {[Op.gt]: { [Op.all]: literal('SELECT 1') }}, //{[Op.like] : { [Op.any]: ['affectueux','froid', 'joueur','sensible',''] }} , 
       // horse_body_type : {[Op.like] : { [Op.any]: [req.query.bodytype1, req.query.bodytype2]}}  || {[Op.gt]: { [Op.all]: literal('SELECT 2') }} ,// || {},//{[Op.like] : { [Op.any]: ['fin','classique','porteur','lourd','']}} ,
