@@ -34,9 +34,7 @@ module.exports = (sequelize, DataTypes) => {
 
         horse_temper : {
             type: DataTypes.STRING,
-            validate : {
-                max : 80
-            }        },
+        },
 
         horse_character : {
             type: DataTypes.STRING,
@@ -46,9 +44,7 @@ module.exports = (sequelize, DataTypes) => {
 
         horse_body_type : {
             type: DataTypes.STRING,
-            validate : {
-                max : 80
-            }        },
+            },
 
         horse_localisation :{
             type: DataTypes.STRING,
@@ -84,6 +80,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN,
             defaultValue: 0,
 
+        },
+
+        horse_currency_budget : {
+            type : DataTypes.STRING,
+            defaultValue: '€',
         },
 
         horse_other_fees :{
@@ -150,6 +151,11 @@ module.exports = (sequelize, DataTypes) => {
             }
 
         },
+        horse_own_saddle : {
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
+        },
+
 
         horse_material : {
             type: DataTypes.STRING,

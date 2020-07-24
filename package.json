@@ -18,17 +18,22 @@
   },
   "homepage": "https://github.com/WildCodeSchool/MRS_P3-_0320_CavalCloud_Back#readme",
   "dependencies": {
+    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "eslint": "^7.1.0",
     "express": "^4.17.1",
+    "express-fileupload": "^1.1.7-alpha.4",
     "express-router": "0.0.1",
+    "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "mysql2": "^2.1.0",
     "sequelize": "^5.21.13",
     "sequelize-cli": "^5.5.1"
   },
   "devDependencies": {
+    "concurrently": "^5.2.0",
     "nodemon": "^2.0.4"
   }
 }
