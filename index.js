@@ -34,6 +34,6 @@ app.use('/api/owners', ownerRouter)
 
 models
 .sequelize
-.sync()
+.sync({force : true})
 .then(() => app.listen(port, () => console.log(`App listening on port ${port}`)))
 
