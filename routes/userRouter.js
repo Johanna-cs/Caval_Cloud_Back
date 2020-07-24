@@ -103,19 +103,22 @@ userRouter.put('/:id', (req,res) => {
   .User
   .findOne({
     where: {
-      user_ID: decoded.user_ID
+      // user_ID: decoded.user_ID
+      user_ID : req.params.id
     }
   })
-    .then(user => {
-      if (user) {
-        res.json(user)
-      } else {
-        res.send('User does not exist')
-      }
-    })
-    .catch(err => {
-      res.send('error: ' + err)
-    })
+  .then(x => res.json(x))
+
+    // .then(user => {
+    //   if (user) {
+    //     res.json(user)
+    //   } else {
+    //     res.send('User does not exist')
+    //   }
+    // })
+    // .catch(err => {
+    //   res.send('error: ' + err)
+    // })
 })
 
 // Display all users :

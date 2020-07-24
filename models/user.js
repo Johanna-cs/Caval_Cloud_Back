@@ -23,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
 
         user_email : {
             type : DataTypes.STRING,
-            unique: true,
             allowNull: false,
             validate : {
                 isEmail: true
@@ -50,6 +49,10 @@ module.exports = (sequelize, DataTypes) => {
             type : DataTypes.BOOLEAN,
             allowNull : false,
             defaultValue : 0
+        },
+
+        user_phone :{
+            type : DataTypes.STRING
         },
         // user_createdAt:{
         //     type: Sequelize.DATE,
