@@ -24,9 +24,9 @@ module.exports = (sequelize, DataTypes) => {
         user_email : {
             type : DataTypes.STRING,
             allowNull: false,
-            validate : {
-                isEmail: true
-            }
+            // validate : {
+            //     isEmail: true
+            // }
         },
 
         user_password : {
@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         user_avatar : {
-            type : DataTypes.BLOB,
+            type : DataTypes.STRING,
         },
 
         user_isAdmin : {

@@ -98,28 +98,28 @@ userRouter.get('/profile', (req, res) => {
 });
 
 // Update user information from its ID
-userRouter.put('/:id', (req,res) => {
-  models
-  .User
-  .findOne({
-    where: {
-      // user_ID: decoded.user_ID
-      user_ID : req.params.id
-    }
-  })
-  .then(x => res.json(x))
+// userRouter.put('/:id', (req,res) => {
+//   models
+//   .User
+//   .findOne({
+//     where: {
+//       // user_ID: decoded.user_ID
+//       user_ID : req.params.id
+//     }
+//   })
+//   .then(x => res.json(x))
 
-    // .then(user => {
-    //   if (user) {
-    //     res.json(user)
-    //   } else {
-    //     res.send('User does not exist')
-    //   }
-    // })
-    // .catch(err => {
-    //   res.send('error: ' + err)
-    // })
-})
+//     // .then(user => {
+//     //   if (user) {
+//     //     res.json(user)
+//     //   } else {
+//     //     res.send('User does not exist')
+//     //   }
+//     // })
+//     // .catch(err => {
+//     //   res.send('error: ' + err)
+//     // })
+// })
 
 // Display all users :
 userRouter.get('/', (req,res) => {
@@ -130,6 +130,21 @@ userRouter.get('/', (req,res) => {
 
   }
 )
+
+// Update user information from its ID (V2):
+
+userRouter.put('/:id', (req, res) => {
+  models
+      .User
+      .update(req.body, {
+          where: {
+              user_ID: req.params.id
+          }
+      })
+      .then(x => res.json(x))
+    })
+
+
 
 // Delete user from its ID
 userRouter.delete('/:id', (req,res) => {
