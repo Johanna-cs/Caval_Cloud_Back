@@ -13,7 +13,7 @@ app.use(express.urlencoded({
 ownerRouter.get('/', (req,res) => {
     models
       .Owner_presentation
-      .findAll()
+      .findAll({include : [models.Horse]})
       .then(x => res.json(x))
   });
 
@@ -22,7 +22,10 @@ ownerRouter.get('/', (req,res) => {
 ownerRouter.post('/', (req,res) => {
   models
     .Owner_presentation
-    .create(req.body)
+    .create(req.body, {
+      where: {
+        horse_ID:req.params.id
+      }})
     .then(x => res.json(x))
 });
 
