@@ -13,16 +13,25 @@ app.use(express.urlencoded({
 ownerRouter.get('/', (req,res) => {
     models
       .Owner_presentation
-      .findAll()
+      .findAll({include : [models.Horse]})
       .then(x => res.json(x))
   });
 
+
+  //{include: [{
+  // association : [Horse.OwnerPresentationOwnerID], 
+  // include : [models.Horse] }]}
+
+    
   // Create a owner :
 
 ownerRouter.post('/', (req,res) => {
   models
     .Owner_presentation
-    .create(req.body)
+    .create(req.body, {
+      where: {
+        horse_ID:req.params.id
+      }})
     .then(x => res.json(x))
 });
 
