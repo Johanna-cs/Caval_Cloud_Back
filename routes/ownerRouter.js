@@ -17,6 +17,12 @@ ownerRouter.get('/', (req,res) => {
       .then(x => res.json(x))
   });
 
+
+  //{include: [{
+  // association : [Horse.OwnerPresentationOwnerID], 
+  // include : [models.Horse] }]}
+
+    
   // Create a owner :
 
 ownerRouter.post('/', (req,res) => {
