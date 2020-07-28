@@ -26,7 +26,8 @@ idealRiderRouter.post('/', (req,res) => {
     .Ideal_rider
     .create(req.body, {
       where: {
-        horse_ID:req.params.id
+        ideal_rider_ID: req.params.id,
+        horse_ID: req.params.id
       }
     })
     .then(x => res.json(x))

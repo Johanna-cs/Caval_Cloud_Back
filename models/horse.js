@@ -169,7 +169,7 @@ module.exports = (sequelize, DataTypes) => {
     Horse.associate = models => {
         
         Horse.belongsTo(models.Ideal_rider)
-        Horse.belongsTo(models.Owner_presentation)
+        Horse.belongsTo(models.Owner_presentation, {foreignKey:'ownerPres_ID'})
         Horse.belongsTo(models.User)
         Horse.belongsToMany(models.User, {through: 'favorites_horses'})
         Horse.hasMany(models.FavoriteHorses, {
