@@ -172,6 +172,10 @@ module.exports = (sequelize, DataTypes) => {
         Horse.belongsTo(models.Owner_presentation)
         Horse.belongsTo(models.User)
         Horse.belongsToMany(models.User, {through: 'favorites_horses'})
+        Horse.hasMany(models.FavoriteHorses, {
+            as : 'FavoriteHorses',
+            foreignKey : 'horseid'
+        })
 
     }
 
