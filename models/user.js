@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 module.exports = (sequelize, DataTypes) => {
 
     const User = sequelize.define('User', {
@@ -25,11 +23,10 @@ module.exports = (sequelize, DataTypes) => {
 
         user_email : {
             type : DataTypes.STRING,
-            unique: true,
             allowNull: false,
-            validate : {
-                isEmail: true
-            }
+            // validate : {
+            //     isEmail: true
+            // }
         },
 
         user_password : {
@@ -45,13 +42,17 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         user_avatar : {
-            type : DataTypes.BLOB,
+            type : DataTypes.STRING,
         },
 
         user_isAdmin : {
             type : DataTypes.BOOLEAN,
             allowNull : false,
             defaultValue : 0
+        },
+
+        user_phone :{
+            type : DataTypes.STRING
         },
         // user_createdAt:{
         //     type: Sequelize.DATE,
@@ -68,9 +69,10 @@ module.exports = (sequelize, DataTypes) => {
         User.hasOne(models.Rider)
         User.hasMany(models.Horse)
         User.belongsToMany(models.Horse, {through: 'favorites_horses'})
-
-        
-
+        User.hasMany(models.FavoriteHorses, {
+            as : 'FavoriteHorses',
+            foreignKey: 'userid'
+        })
     }
 
 

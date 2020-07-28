@@ -1,7 +1,11 @@
 {
   "development": {
     "username": "root",
+<<<<<<< HEAD
     "password": "N@d!r-13",
+=======
+    "password": "Pyewaket83!",
+>>>>>>> 8514558abbbdd115c85a27fba112dd87ca9afa00
     "database": "caval_cloud",
     "host": "127.0.0.1",
     "dialect": "mysql",

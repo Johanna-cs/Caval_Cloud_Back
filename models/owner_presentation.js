@@ -11,11 +11,18 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,  
             },
 
+        owner_firstname : {
+            type : DataTypes.STRING,
+            validate : {
+                max : 150,
+            }
+        },
+
         owner_age : {
             type: DataTypes.INTEGER,   
         },
 
-        owner_character : {
+        owner_caracter : {
             type : DataTypes.STRING,
             validate : {
                 max : 80,
@@ -29,14 +36,14 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
 
-        owner_biography : {
+        owner_message : {
             type : DataTypes.STRING,
             validate : {
                 max : 255,
             }
         },
 
-        owner_communication_frequences : {
+        owner_communication_frequency : {
             type : DataTypes.STRING,
             validate : {
                 max : 80,
@@ -46,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
     
     
     Owner_presentation.associate = models => {
-        Owner_presentation.hasMany(models.Horse);
+        Owner_presentation.hasMany(models.Horse, {foreignKey:'ownerPres_ID'});
     }
 
     

@@ -100,25 +100,28 @@ userRouter.get('/profile', (req, res) => {
 });
 
 // Update user information from its ID
-userRouter.put('/:id', (req,res) => {
-  models
-  .User
-  .findOne({
-    where: {
-      user_ID: decoded.user_ID
-    }
-  })
-    .then(user => {
-      if (user) {
-        res.json(user)
-      } else {
-        res.send('User does not exist')
-      }
-    })
-    .catch(err => {
-      res.send('error: ' + err)
-    })
-})
+// userRouter.put('/:id', (req,res) => {
+//   models
+//   .User
+//   .findOne({
+//     where: {
+//       // user_ID: decoded.user_ID
+//       user_ID : req.params.id
+//     }
+//   })
+//   .then(x => res.json(x))
+
+//     // .then(user => {
+//     //   if (user) {
+//     //     res.json(user)
+//     //   } else {
+//     //     res.send('User does not exist')
+//     //   }
+//     // })
+//     // .catch(err => {
+//     //   res.send('error: ' + err)
+//     // })
+// })
 
 // Display all users :
 userRouter.get('/', (req,res) => {
@@ -129,6 +132,21 @@ userRouter.get('/', (req,res) => {
 
   }
 )
+
+// Update user information from its ID (V2):
+
+userRouter.put('/:id', (req, res) => {
+  models
+      .User
+      .update(req.body, {
+          where: {
+              user_ID: req.params.id
+          }
+      })
+      .then(x => res.json(x))
+    })
+
+
 
 // Delete user from its ID
 userRouter.delete('/:id', (req,res) => {
@@ -142,18 +160,43 @@ userRouter.delete('/:id', (req,res) => {
     .then(res.send("user deleted"))
 });
 
-// module.exports = users
-// Add a result within user favorites
-userRouter.post('/add-favorites/horse/:userId', (req,res) => {
-  const userId = 1
-  // const resultId = req.params.resultId
+
+// Add a horse within user favorites
+userRouter.post('/addFavoriteHorse', (req,res) => {
+  const userid = req.body.userid
+  const horseid = Number(req.body.horseid)
   models
-    .favorites_horses
+    .FavoriteHorses
     .create({
-        UserUserID : userId,
-        // HorseHorseID : resultId
-      })
-    .then(res.send(`a new favorite for user ${userId} has been created`))
+      userid: userid,
+      horseid: horseid
+    })
+    .then(res.send(`a new favorite horse has been added`))
 });
 
-module.exports = userRouter
+// Delete horse within user favorite from its ID
+userRouter.delete('/deleteFavoriteHorse/:id', (req,res) => {
+  models
+    .FavoriteHorses
+    .destroy({
+      where: {
+        userid : req.params.id
+      }
+    })
+    .then(res.send("horse favorite deleted"))
+});
+
+
+// Display horse favorites from userID: 
+userRouter.get('/favorites/horses/:id', (req,res) => {
+  models
+    .FavoriteHorses
+    .findOne({
+      where: {
+        userid : req.params.id
+      }})
+    .then(x => res.json(x))
+})
+
+
+module.exports= userRouter

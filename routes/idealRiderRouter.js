@@ -15,7 +15,7 @@ app.use(express.urlencoded({
 idealRiderRouter.get('/', (req,res) => {
     models
       .Ideal_rider
-      .findAll()
+      .findAll({include : [models.Horse]})
       .then(x => res.json(x))
   });
 
@@ -24,7 +24,12 @@ idealRiderRouter.get('/', (req,res) => {
 idealRiderRouter.post('/', (req,res) => {
   models
     .Ideal_rider
-    .create(req.body)
+    .create(req.body, {
+      where: {
+        ideal_rider_ID: req.params.id,
+        horse_ID: req.params.id
+      }
+    })
     .then(x => res.json(x))
 });
 

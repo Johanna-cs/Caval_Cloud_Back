@@ -76,7 +76,7 @@ horseRouter.get('/:id', (req,res) => {
       where: {
         horse_ID: req.params.id
       }
-    })
+    },{include: [models.Ideal_rider, models.Owner_presentations, models.User]})
     .then(x => res.json(x))
 });
 
@@ -87,7 +87,10 @@ horseRouter.post('/', (req,res) => {
   models
     .Horse
     .create(req.body)
-    .then(x => res.json(x))
+    .then(
+      Horse.addowner_presentations(Horse.ownerPres_ID), 
+      Horse.addIdeal_rider(Horse.idealRider_ID)
+    )
 });
 
 

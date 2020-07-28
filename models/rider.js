@@ -94,8 +94,7 @@ module.exports = (sequelize, DataTypes) => {
                 max : 80
             }
         },
-
-        rider_caracteristic_riding3: {
+        rider_ridingWord3 : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
@@ -139,13 +138,6 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
 
-        rider_others_disciplines : {
-            type : DataTypes.STRING,
-            defaultValue : '',
-            validate : {
-                max : 80
-            }
-        },
 
         rider_coaching_here : {
             type : DataTypes.BOOLEAN,
