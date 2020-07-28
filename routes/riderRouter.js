@@ -52,7 +52,7 @@ riderRouter.get('/search/?', (req,res) => {
   const competition = req.query.competition || 0
   const getLesson = req.query.lesson || 0
   
-  const competition = req.query.competition || ''
+  // const competition = req.query.competition || ''
   const managed = req.query.managed
   const getYears = Number(req.query.years) || 0 
   const disciplines = req.query.disciplines || ''

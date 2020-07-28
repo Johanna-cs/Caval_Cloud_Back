@@ -52,30 +52,15 @@ module.exports = (sequelize, DataTypes) => {
                 max : 80
             }        },
 
-<<<<<<< HEAD
-        horse_get_lesson :{
-            type: DataTypes.BOOLEAN,
-            defaultValue : 0
-        },
-=======
->>>>>>> 9dd4177ba4dda223edafb665d448af8f6e19faab
 
         horse_coaching_here:{
             type: DataTypes.BOOLEAN,
-<<<<<<< HEAD
-            defaultValue : 0
-=======
             defaultValue: 0
->>>>>>> 9dd4177ba4dda223edafb665d448af8f6e19faab
         },
 
         horse_external_coach:{
             type: DataTypes.BOOLEAN,
-<<<<<<< HEAD
-            defaultValue : 0
-=======
             defaultValue: 0
->>>>>>> 9dd4177ba4dda223edafb665d448af8f6e19faab
         },
 
         horse_budget :{
@@ -108,11 +93,7 @@ module.exports = (sequelize, DataTypes) => {
 
         horse_stroll_along :{
             type: DataTypes.BOOLEAN,
-<<<<<<< HEAD
             defaultValue : 0
-=======
-            defaultValue: 0,
->>>>>>> 9dd4177ba4dda223edafb665d448af8f6e19faab
         },
 
         horse_photos : {
@@ -128,6 +109,7 @@ module.exports = (sequelize, DataTypes) => {
 
         horse_competition_preferences :{
             type: DataTypes.STRING,
+            defaultValue : 0,
             validate : {
                 max : 80
             }
@@ -148,7 +130,7 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         horse_accomodation :{
-            type: DataTypes.STRING,
+            type: DataTypes.JSON,
             validate : {
                 max : 80
             }
@@ -164,7 +146,7 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         horse_disciplines :{
-            type: DataTypes.STRING,
+            type: DataTypes.JSON,
             validate : {
                 max : 80
             }

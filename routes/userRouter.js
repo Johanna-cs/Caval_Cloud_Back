@@ -4,6 +4,7 @@ const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const models = require('../models')
+
 userRouter.use(cors())
 
 process.env.SECRET_KEY = 'secret'
@@ -17,6 +18,7 @@ userRouter.post('/register', (req, res) => {
         user_lastname: req.body.user_lastname,
         user_email: req.body.user_email,
         user_password: req.body.user_password,
+        user_accept_CGV :req.body.user_accept_CGV,
         createdAt: today
     }
     models
@@ -140,7 +142,7 @@ userRouter.delete('/:id', (req,res) => {
     .then(res.send("user deleted"))
 });
 
-
+// module.exports = users
 // Add a result within user favorites
 userRouter.post('/add-favorites/horse/:userId', (req,res) => {
   const userId = 1
@@ -154,4 +156,4 @@ userRouter.post('/add-favorites/horse/:userId', (req,res) => {
     .then(res.send(`a new favorite for user ${userId} has been created`))
 });
 
-module.exports= userRouter
+module.exports = userRouter
