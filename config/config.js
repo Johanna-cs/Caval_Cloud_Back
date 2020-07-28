@@ -1,4 +1,4 @@
-require('dotenv')
+require('dotenv').config()
 
 module.exports = 
 {
@@ -19,10 +19,10 @@ module.exports =
     "operatorsAliases": false
   },
   "production": {
-    "username": "root",
-    "password": "Pyewaket83!",
-    "database": "caval_cloud",
-    "host": "127.0.0.1",
+    "username": process.env.USER,
+    "password": process.env.PASS,
+    "database": process.env.DB,
+    "host": process.env.HOST,
     "dialect": "mysql",
     "operatorsAliases": false
   }

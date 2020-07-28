@@ -8,6 +8,7 @@ const horseRouter = require('./routes/horseRouter');
 const idealHorseRouter = require('./routes/idealHorseRouter')
 const idealRiderRouter = require('./routes/idealRiderRouter')
 const ownerRouter = require('./routes/ownerRouter');
+require('dotenv').config()
 
 
 const cors = require('cors');
