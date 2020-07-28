@@ -10,19 +10,11 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,  
         },
 
-        ideal_horse_heigth_min: {
+        ideal_horse_size: {
             type : DataTypes.INTEGER,
         },
 
-        ideal_horse_heigth_max: {
-            type : DataTypes.INTEGER,
-        },
-
-        ideal_horse_min_age: {
-            type : DataTypes.INTEGER,
-        },
-
-        ideal_horse_max_age: {
+        ideal_horse_age: {
             type : DataTypes.INTEGER,
         },
 
@@ -33,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
 
-        ideal_horse_character: {
+        ideal_horse_caracter: {
             type : DataTypes.STRING,
             validate : {
                 max : 80

@@ -157,13 +157,6 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: ''
         },
 
-        rider_ridercommunication : {
-            type : DataTypes.STRING,
-            validate : {
-                max : 80
-            }
-        },
-
         rider_riding_frequency :{
             type : DataTypes.STRING,
             defaultValue: '',
@@ -179,11 +172,6 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         rider_own_saddle : {
-            type : DataTypes.BOOLEAN,
-            defaultValue: 0
-        },
-
-        rider_own_care_equipement : {
             type : DataTypes.BOOLEAN,
             defaultValue: 0
         },
