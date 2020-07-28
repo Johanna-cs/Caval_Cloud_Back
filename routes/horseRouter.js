@@ -91,7 +91,7 @@ horseRouter.post('/', (req,res) => {
     .Horse
     .create(req.body)
     .then(
-      Horse.addowner_presentations(Horse.ownerPres_ID), 
+      Horse.addOwner_presentations(Horse.ownerPres_ID), 
       Horse.addIdeal_rider(Horse.idealRider_ID)
     )
 });
