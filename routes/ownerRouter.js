@@ -30,8 +30,7 @@ ownerRouter.post('/', (req,res) => {
     .Owner_presentation
     .create(req.body, {
       where: {
-        owner_ID: req.params.id,
-        horse_ID : req.params.id 
+        owner_ID: req.params.id
       }})
     .then(x => res.json(x))
 });
