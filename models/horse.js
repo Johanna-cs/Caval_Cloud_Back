@@ -175,9 +175,9 @@ module.exports = (sequelize, DataTypes) => {
 
     Horse.associate = models => {
         
-        Horse.belongsTo(models.Ideal_rider, {foreignKey:'idealRider_ID'})
-        Horse.belongsTo(models.Owner_presentation, {foreignKey:'ownerPres_ID'})
-        Horse.belongsTo(models.User)
+        Horse.belongsTo(models.Ideal_rider, {foreignKey:'ideal_rider_ID '})
+        Horse.belongsTo(models.Owner_presentation, {foreignKey:'owner_ID'})
+        Horse.belongsTo(models.User, {foreignKey:'user_ID'})
         Horse.belongsToMany(models.User, {through: 'favorites_horses'})
         Horse.hasMany(models.FavoriteHorses, {
             as : 'FavoriteHorses',

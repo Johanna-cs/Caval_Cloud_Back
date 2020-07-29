@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
     }, {});
 
     Ideal_rider.associate = models => {
-        Ideal_rider.hasMany(models.Horse, {foreignKey:'idealRider_ID'});
+        Ideal_rider.hasMany(models.Horse, {foreignKey:'ideal_rider_ID '});
     }
 
     return Ideal_rider;

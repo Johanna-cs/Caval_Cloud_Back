@@ -17,7 +17,16 @@ ownerRouter.get('/', (req,res) => {
       .then(x => res.json(x))
   });
 
-
+ownerRouter.get('/:id', (req,res) => {
+    models
+      .Owner_presentation
+      .findAll({
+        where: {
+            owner_ID: req.params.id
+        }
+    })
+      .then(x => res.json(x))
+  });
   //{include: [{
   // association : [Horse.OwnerPresentationOwnerID], 
   // include : [models.Horse] }]}
@@ -43,7 +52,7 @@ ownerRouter.put('/:id', (req,res) => {
     .Owner_presentation
     .update(req.body, {
       where: {
-          Owner_ID: req.params.id
+          owner_ID: req.params.id
       }
   })
     .then(x => res.json(x))
@@ -57,7 +66,7 @@ ownerRouter.delete('/:id', (req,res) => {
     .Owner_presentation
     .destroy({
       where: {
-        Owner_ID : req.params.id
+        owner_ID : req.params.id
       }
     })
     .then(res.send("Owner deleted"))
