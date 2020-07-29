@@ -163,25 +163,48 @@ userRouter.delete('/:id', (req,res) => {
 
 // Add a horse within user favorites
 userRouter.post('/addFavoriteHorse', (req,res) => {
-  const userid = req.body.userid
-  const horseid = Number(req.body.horseid)
-  const horsename = req.body.horsename
-  const urlphoto = req.body.urlphoto
+  const user_ID = req.body.userid
+  const horse_ID = Number(req.body.horseid)
+  const horse_name = req.body.horsename
+  const horse_photo1 = req.body.urlphoto
   models
     .FavoriteHorses
     .create({
-      userid: userid,
-      horseid: horseid,
-      horsename : horsename,
-      urlphoto : urlphoto,
+      user_ID: user_ID,
+      horse_ID: horse_ID,
+      horsename : horse_name,
+      horse_photo1 : horse_photo1,
     })
     .then(res.send(`a new favorite horse has been added`))
   models
     .Horse
     .update(
-      { UserUserID : userid },
       { where: {
-          horse_ID: horseid
+          horse_ID: horse_ID
+      }}
+  )
+});
+
+// Add a rider within user favorites
+userRouter.post('/addFavoriteRider', (req,res) => {
+  const user_ID = req.body.user_ID
+  const rider_ID = Number(req.body.rider_ID)
+  const rider_firstname = req.body.rider_firstname
+  const rider_photo1 = req.body.rider_photo1
+  models
+    .FavoriteHorses
+    .create({
+      user_ID: user_ID,
+      rider_ID: rider_ID,
+      rider_firstname : rider_firstname,
+      rider_photo1 : rider_photo1,
+    })
+    .then(res.send(`a new favorite rider has been added`))
+  models
+    .Horse
+    .update(
+      { where: {
+        rider_ID: rider_ID
       }}
   )
 });
@@ -192,12 +215,23 @@ userRouter.delete('/deleteFavoriteHorse/:id', (req,res) => {
     .FavoriteHorses
     .destroy({
       where: {
-        userid : req.params.id
+        user_ID : req.params.id
       }
     })
     .then(res.send("horse favorite deleted"))
 });
 
+// Delete rider within user favorite from its ID
+userRouter.delete('/deleteFavoriteRider/:id', (req,res) => {
+  models
+    .FavoriteRiders
+    .destroy({
+      where: {
+        user_ID : req.params.id
+      }
+    })
+    .then(res.send("rider favorite deleted"))
+});
 
 // Display horse favorites from userID: 
 userRouter.get('/favorites/horses/:id', (req,res) => {
@@ -206,7 +240,7 @@ userRouter.get('/favorites/horses/:id', (req,res) => {
     .findAll(
       {
       where: {
-        userid : req.params.id
+        user_ID : req.params.id
       },
       })
     .then(item => {
@@ -218,6 +252,24 @@ userRouter.get('/favorites/horses/:id', (req,res) => {
     })
   })
 
+  // Display rider favorites from userID: 
+userRouter.get('/favorites/riders/:id', (req,res) => {
+  models
+    .FavoriteRiders
+    .findAll(
+      {
+      where: {
+        user_ID : req.params.id
+      },
+      })
+    .then(item => {
+      if(item) {
+        res.json(item)
+        } else {
+        res.json({message : 'No favorited riders'})
+        }
+    })
+  })
 
 
 

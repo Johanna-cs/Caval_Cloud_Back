@@ -1,11 +1,11 @@
 'use strict';
 
 module.exports = (sequelize, DataTypes) => {
-  const FavoriteHorses = sequelize.define('FavoriteHorses', {
+  const FavoriteRiders = sequelize.define('FavoriteRiders', {
         user_ID: DataTypes.INTEGER,
-        horse_ID: DataTypes.INTEGER,
-        horse_name : DataTypes.STRING,
-        horse_photo1 : DataTypes.STRING
+        rider_ID: DataTypes.INTEGER,
+        rider_firstname : DataTypes.STRING,
+        rider_photo1 : DataTypes.STRING
   }, {});
     
 // FavoriteHorses.associate = models => {
@@ -13,5 +13,5 @@ module.exports = (sequelize, DataTypes) => {
 //     }
 
     
-    return FavoriteHorses;
+    return FavoriteRiders;
 }

@@ -248,6 +248,9 @@ module.exports = (sequelize, DataTypes) => {
         ideal_rider_material : {
             type: DataTypes.STRING,
             max: 80
+        },
+        user_ID : {
+            type: DataTypes.INTEGER,
         }
     }, 
     {});
