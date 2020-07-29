@@ -34,8 +34,14 @@ module.exports = (sequelize, DataTypes) => {
             type : DataTypes.BLOB,
         },
 
-        rider_photos : {
-            type : DataTypes.BLOB,
+        rider_photo1 : {
+            type : DataTypes.STRING,
+        },
+        rider_photo2 : {
+            type : DataTypes.STRING,
+        },
+        rider_photo3 : {
+            type : DataTypes.STRING,
         },
 
         rider_age : {

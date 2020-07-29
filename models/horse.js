@@ -96,8 +96,14 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: 0,
         },
 
-        horse_photos : {
-            type: DataTypes.BLOB,
+        horse_photo1 : {
+            type: DataTypes.STRING,
+        },
+        horse_photo2 : {
+            type: DataTypes.STRING,
+        },
+        horse_photo3 : {
+            type: DataTypes.STRING,
         },
 
         horse_location_type :{
@@ -109,6 +115,7 @@ module.exports = (sequelize, DataTypes) => {
 
         horse_competition_preferences :{
             type: DataTypes.STRING,
+            defaultValue : 0,
             validate : {
                 max : 80
             }
@@ -129,7 +136,7 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         horse_accomodation :{
-            type: DataTypes.STRING,
+            type: DataTypes.JSON,
             validate : {
                 max : 80
             }
@@ -145,7 +152,7 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         horse_disciplines :{
-            type: DataTypes.STRING,
+            type: DataTypes.JSON,
             validate : {
                 max : 80
             }
