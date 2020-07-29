@@ -169,14 +169,96 @@ module.exports = (sequelize, DataTypes) => {
             max: 80
         },
 
-        
+        owner_ID : {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,  
+            },
+
+        owner_firstname : {
+            type : DataTypes.STRING,
+            validate : {
+                max : 150,
+            }
+        },
+
+        owner_age : {
+            type: DataTypes.INTEGER,   
+        },
+
+        owner_caracter : {
+            type : DataTypes.STRING,
+            validate : {
+                max : 80,
+            }
+        },
+
+        owner_horse_work : {
+            type : DataTypes.STRING,
+            validate : {
+                max : 80,
+            }
+        },
+
+        owner_message : {
+            type : DataTypes.STRING,
+            validate : {
+                max : 255,
+            }
+        },
+
+        owner_communication_frequency : {
+            type : DataTypes.STRING,
+            validate : {
+                max : 80,
+            }
+        },
+        ideal_rider_ID : {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,  
+        },
+
+        ideal_rider_years_of_practice : {
+            type : DataTypes.INTEGER,
+            validate : {
+                max : 99
+            }
+        },
+
+        ideal_rider_gallop_level : {
+            type : DataTypes.INTEGER,
+            validate : {
+                max : 99
+            }
+        },
+
+        ideal_rider_age : {
+            type : DataTypes.INTEGER,
+            validate : {
+                max : 120
+            }
+        },
+
+        ideal_rider_vehiculed : {
+            type : DataTypes.BOOLEAN
+        },
+
+        ideal_rider_managed_horse : {
+            type : DataTypes.BOOLEAN
+        },
+
+        ideal_rider_material : {
+            type: DataTypes.STRING,
+            max: 80
+        }
     }, 
     {});
 
     Horse.associate = models => {
         
-        Horse.belongsTo(models.Ideal_rider, {foreignKey:'idealRider_ID'})
-        Horse.belongsTo(models.Owner_presentation, {foreignKey:'ownerPres_ID'})
+        // Horse.belongsTo(models.Ideal_rider, {foreignKey:'idealRider_ID'})
+        // Horse.belongsTo(models.Owner_presentation, {foreignKey:'ownerPres_ID'})
         Horse.belongsTo(models.User, {foreignKey:'user_ID'})
         Horse.belongsToMany(models.User, {through: 'favorites_horses'})
         Horse.hasMany(models.FavoriteHorses, {

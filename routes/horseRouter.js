@@ -19,7 +19,7 @@ app.use(express.urlencoded({
 horseRouter.get('/', (req,res) => {
   models
     .Horse
-    .findAll({include: [models.Ideal_rider, models.Owner_presentation, models.User]})
+    .findAll({include: [models.User]})
     .then(x => res.json(x))
 
   }
@@ -76,7 +76,7 @@ horseRouter.get('/:id', (req,res) => {
       where: {
         horse_ID: req.params.id
       }
-    },{include: [models.Ideal_rider, models.Owner_presentations, models.User]})
+    },{include: [models.User]})
     .then(x => res.json(x))
 });
 
@@ -87,10 +87,10 @@ horseRouter.post('/', (req,res) => {
   models
     .Horse
     .create(req.body)
-    .then(
+    .then(x => res.json(x)
       // Horse.addowner_presentations(Horse.ownerPres_ID), 
       // Horse.addIdeal_rider(Horse.idealRider_ID)
-      x => res.json(x)
+    
     )
 });
 
