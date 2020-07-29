@@ -3,11 +3,13 @@
 module.exports = (sequelize, DataTypes) => {
   const FavoriteHorses = sequelize.define('FavoriteHorses', {
         userid: DataTypes.INTEGER,
-        horseid: DataTypes.INTEGER
+        horseid: DataTypes.INTEGER,
+        horsename : DataTypes.STRING,
+        urlphoto : DataTypes.STRING
   }, {});
     
 // FavoriteHorses.associate = models => {
-//         Owner_presentation.hasMany(models.Horse);
+//         FavoriteHorses.hasOne(models.Horse, {through : 'id'});
 //     }
 
     
