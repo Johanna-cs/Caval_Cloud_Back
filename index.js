@@ -5,9 +5,9 @@ const port = 4000;
 const userRouter = require('./routes/userRouter');
 const riderRouter = require('./routes/riderRouter');
 const horseRouter = require('./routes/horseRouter');
-const idealHorseRouter = require('./routes/idealHorseRouter')
-const idealRiderRouter = require('./routes/idealRiderRouter')
-const ownerRouter = require('./routes/ownerRouter');
+// const idealHorseRouter = require('./routes/idealHorseRouter')
+// const idealRiderRouter = require('./routes/idealRiderRouter')
+// const ownerRouter = require('./routes/ownerRouter');
 
 
 const cors = require('cors');
@@ -34,9 +34,9 @@ app.get('/', (req, res) => {
 app.use('/api/users', userRouter)
 app.use('/api/riders', riderRouter)
 app.use('/api/horses', horseRouter)
-app.use('/api/idealhorses', idealHorseRouter)
-app.use('/api/idealriders', idealRiderRouter)
-app.use('/api/owners', ownerRouter)
+// app.use('/api/idealhorses', idealHorseRouter)
+// app.use('/api/idealriders', idealRiderRouter)
+// app.use('/api/owners', ownerRouter)
 
 
 models

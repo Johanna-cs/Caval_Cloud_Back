@@ -82,11 +82,6 @@ module.exports = (sequelize, DataTypes) => {
 
         },
 
-        horse_currency_budget : {
-            type : DataTypes.STRING,
-            defaultValue: '€',
-        },
-
         horse_other_fees :{
             type: DataTypes.INTEGER,
         },
@@ -169,11 +164,6 @@ module.exports = (sequelize, DataTypes) => {
             max: 80
         },
 
-        owner_ID : {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,  
-            },
 
         owner_firstname : {
             type : DataTypes.STRING,
@@ -213,11 +203,7 @@ module.exports = (sequelize, DataTypes) => {
                 max : 80,
             }
         },
-        ideal_rider_ID : {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,  
-        },
+
 
         ideal_rider_years_of_practice : {
             type : DataTypes.INTEGER,

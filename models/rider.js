@@ -195,10 +195,39 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: 0
         },
 
+
+        ideal_horse_size: {
+            type : DataTypes.INTEGER,
+        },
+
+        ideal_horse_age: {
+            type : DataTypes.INTEGER,
+        },
+
+        ideal_horse_temper: {
+            type : DataTypes.STRING,
+            validate : {
+                max : 80
+            }
+        },
+
+        ideal_horse_caracter: {
+            type : DataTypes.STRING,
+            validate : {
+                max : 80
+            }
+        },
+
+        ideal_horse_body_type: {
+            type : DataTypes.STRING,
+            validate : {
+                max : 80
+            },
+        }
     }, {});
     
     Rider.associate = models => {
-        Rider.belongsTo(models.Ideal_horse)
+        // Rider.belongsTo(models.Ideal_horse)
         Rider.belongsTo(models.User, {foreignKey:'user_ID'})
     }
     
