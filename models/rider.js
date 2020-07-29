@@ -193,7 +193,7 @@ module.exports = (sequelize, DataTypes) => {
     
     Rider.associate = models => {
         Rider.belongsTo(models.Ideal_horse)
-        Rider.belongsTo(models.User)
+        Rider.belongsTo(models.User, {foreignKey:'user_ID'})
     }
     
     return Rider;

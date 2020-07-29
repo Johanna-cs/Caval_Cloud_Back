@@ -90,10 +90,10 @@ horseRouter.post('/', (req,res) => {
   models
     .Horse
     .create(req.body)
-    .then(
-      Horse.addOwner_presentations(Horse.ownerPres_ID), 
-      Horse.addIdeal_rider(Horse.idealRider_ID)
-    )
+    .then()
+
+
+    .then(x => res.json(x))
 });
 
 
