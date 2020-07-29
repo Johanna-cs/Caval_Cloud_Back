@@ -52,9 +52,9 @@ module.exports = (sequelize, DataTypes) => {
     }, {});
     
     
-    Owner_presentation.associate = models => {
-        Owner_presentation.hasMany(models.Horse, {foreignKey:'ownerPres_ID'});
-    }
+    // Owner_presentation.associate = models => {
+    //     Owner_presentation.hasMany(models.Horse, {foreignKey:'ownerPres_ID'});
+    // }
 
     
     return Owner_presentation;
