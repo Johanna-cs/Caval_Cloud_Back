@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({
 riderRouter.get('/', (req,res) => {
   models
     .Rider
-    .findAll({include: [models.Ideal_horse]})
+    .findAll({include: [models.User]})
     .then(x => res.json(x))
 
   }
