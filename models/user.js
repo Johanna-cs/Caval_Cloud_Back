@@ -68,11 +68,17 @@ module.exports = (sequelize, DataTypes) => {
     User.associate = models => {
         User.hasOne(models.Rider, {foreignKey:'user_ID'})
         User.hasMany(models.Horse, {foreignKey:'user_ID'})
-        User.belongsToMany(models.Horse, {through: 'favorites_horses'})
         User.hasMany(models.FavoriteHorses, {
             as : 'FavoriteHorses',
             foreignKey: 'user_ID'
         })
+        User.hasMany(models.FavoriteRiders, {
+            as : 'FavoriteRiders',
+            foreignKey: 'user_ID'
+        })
+
+        
+
     }
 
 

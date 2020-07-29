@@ -48,10 +48,21 @@ module.exports = (sequelize, DataTypes) => {
 
         horse_localisation :{
             type: DataTypes.STRING,
-            validate : {
-                max : 80
-            }        },
+            },
 
+
+        horse_postal :{
+            type: DataTypes.STRING,
+                },
+    
+        horse_lat : {
+                type: DataTypes.FLOAT,
+            },
+    
+        horse_long : {
+                type: DataTypes.FLOAT,
+            },
+    
 
         horse_coaching_here:{
             type: DataTypes.BOOLEAN,
@@ -237,6 +248,9 @@ module.exports = (sequelize, DataTypes) => {
         ideal_rider_material : {
             type: DataTypes.STRING,
             max: 80
+        },
+        user_ID : {
+            type: DataTypes.INTEGER,
         }
     }, 
     {});
@@ -246,10 +260,9 @@ module.exports = (sequelize, DataTypes) => {
         // Horse.belongsTo(models.Ideal_rider, {foreignKey:'idealRider_ID'})
         // Horse.belongsTo(models.Owner_presentation, {foreignKey:'ownerPres_ID'})
         Horse.belongsTo(models.User, {foreignKey:'user_ID'})
-        Horse.belongsToMany(models.User, {through: 'favorites_horses'})
         Horse.hasMany(models.FavoriteHorses, {
             as : 'FavoriteHorses',
-            foreignKey : 'horseid'
+            foreignKey : 'horse_ID'
         })
 
     }
