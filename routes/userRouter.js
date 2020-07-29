@@ -163,26 +163,20 @@ userRouter.delete('/:id', (req,res) => {
 
 // Add a horse within user favorites
 userRouter.post('/addFavoriteHorse', (req,res) => {
-  const user_ID = req.body.userid
-  const horse_ID = Number(req.body.horseid)
-  const horse_name = req.body.horsename
-  const horse_photo1 = req.body.urlphoto
+  const user_ID = req.body.user_ID
+  const horse_ID = Number(req.body.horse_ID)
+  const horse_name = req.body.horse_name
+  const horse_photo1 = req.body.horse_photo1
   models
     .FavoriteHorses
     .create({
       user_ID: user_ID,
       horse_ID: horse_ID,
-      horsename : horse_name,
+      horse_name : horse_name,
       horse_photo1 : horse_photo1,
     })
     .then(res.send(`a new favorite horse has been added`))
-  models
-    .Horse
-    .update(
-      { where: {
-          horse_ID: horse_ID
-      }}
-  )
+
 });
 
 // Add a rider within user favorites
@@ -192,7 +186,7 @@ userRouter.post('/addFavoriteRider', (req,res) => {
   const rider_firstname = req.body.rider_firstname
   const rider_photo1 = req.body.rider_photo1
   models
-    .FavoriteHorses
+    .FavoriteRiders
     .create({
       user_ID: user_ID,
       rider_ID: rider_ID,
@@ -200,13 +194,7 @@ userRouter.post('/addFavoriteRider', (req,res) => {
       rider_photo1 : rider_photo1,
     })
     .then(res.send(`a new favorite rider has been added`))
-  models
-    .Horse
-    .update(
-      { where: {
-        rider_ID: rider_ID
-      }}
-  )
+
 });
 
 // Delete horse within user favorite from its ID

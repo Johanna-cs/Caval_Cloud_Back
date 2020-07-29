@@ -229,6 +229,10 @@ module.exports = (sequelize, DataTypes) => {
     Rider.associate = models => {
         // Rider.belongsTo(models.Ideal_horse)
         Rider.belongsTo(models.User, {foreignKey:'user_ID'})
+        Rider.hasMany(models.FavoriteRiders, {
+            as : 'FavoriteRiders',
+            foreignKey : 'rider_ID'
+        })
     }
     
     return Rider;

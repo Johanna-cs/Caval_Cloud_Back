@@ -262,7 +262,7 @@ module.exports = (sequelize, DataTypes) => {
         Horse.belongsTo(models.User, {foreignKey:'user_ID'})
         Horse.hasMany(models.FavoriteHorses, {
             as : 'FavoriteHorses',
-            foreignKey : 'horseid'
+            foreignKey : 'horse_ID'
         })
 
     }
