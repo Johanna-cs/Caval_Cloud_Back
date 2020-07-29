@@ -56,9 +56,9 @@ horseRouter.get('/search/?', (req,res) => {
       // horse_body_type : { [Op.like]: '%req.query.bodytype%'} || {[Op.all]:'SELECT 1' }  ,// || {},//{[Op.like] : { [Op.any]: ['fin','classique','porteur','lourd','']}} ,
       // horse_practice_structure:  { [Op.like]: '%req.query.structure%'} || {[Op.all]:'SELECT 1' },
 
-      // '$owner_age$': { [Op.between]: [ minOwnerAge , maxOwnerAge ]} || {[Op.lte] : 100}, // selection du cheval en fonction de l'age du owner
-      // '$owner_communication_frequences$': req.query.comfreq||{[Op.or]: [1,3 ]}, // Selection du cheval en fonction de la frequence de communication du owner
-      // '$owner_horse_work$': { [Op.like]: '%req.query.horsework%'} || {[Op.or]: ['ouvert', 'normal', 'cadré' ]},
+      '$owner_age$': { [Op.between]: [ minOwnerAge , maxOwnerAge ]} || {[Op.lte] : 100}, // selection du cheval en fonction de l'age du owner
+      '$owner_communication_frequences$': req.query.comfreq||{[Op.or]: [1,3 ]}, // Selection du cheval en fonction de la frequence de communication du owner
+      '$owner_horse_work$': { [Op.like]: '%req.query.horsework%'} || {[Op.or]: ['ouvert', 'normal', 'cadré' ]},
 
     },    
 
@@ -88,8 +88,9 @@ horseRouter.post('/', (req,res) => {
     .Horse
     .create(req.body)
     .then(
-      Horse.addowner_presentations(Horse.ownerPres_ID), 
-      Horse.addIdeal_rider(Horse.idealRider_ID)
+      // Horse.addowner_presentations(Horse.ownerPres_ID), 
+      // Horse.addIdeal_rider(Horse.idealRider_ID)
+      x => res.json(x)
     )
 });
 

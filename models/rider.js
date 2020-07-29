@@ -34,8 +34,14 @@ module.exports = (sequelize, DataTypes) => {
             type : DataTypes.BLOB,
         },
 
-        rider_photos : {
-            type : DataTypes.BLOB,
+        rider_photo1 : {
+            type : DataTypes.STRING,
+        },
+        rider_photo2 : {
+            type : DataTypes.STRING,
+        },
+        rider_photo3 : {
+            type : DataTypes.STRING,
         },
 
         rider_age : {
@@ -157,13 +163,6 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: ''
         },
 
-        rider_ridercommunication : {
-            type : DataTypes.STRING,
-            validate : {
-                max : 80
-            }
-        },
-
         rider_riding_frequency :{
             type : DataTypes.STRING,
             defaultValue: '',
@@ -179,11 +178,6 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         rider_own_saddle : {
-            type : DataTypes.BOOLEAN,
-            defaultValue: 0
-        },
-
-        rider_own_care_equipement : {
             type : DataTypes.BOOLEAN,
             defaultValue: 0
         },
