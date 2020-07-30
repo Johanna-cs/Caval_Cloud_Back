@@ -58,6 +58,17 @@ userRouter.get('/:id', (req,res) => {
     .then(x => res.json(x))
 })
 
+// Display one user from its email: 
+userRouter.get('/:email', (req,res) => {
+  models
+    .User
+    .findOne({
+      where: {
+        user_email : req.params.user_email
+      }})
+    .then(x => res.json(x))
+})
+
 // Display all users :
 userRouter.get('/', (req,res) => {
   models
@@ -69,7 +80,8 @@ userRouter.get('/', (req,res) => {
 
 userRouter.post('/login', (req, res) => {
   models
-  .User.findOne({
+  .User
+  .findOne({
     where: {
       user_email: req.body.user_email
     }
@@ -86,6 +98,7 @@ userRouter.post('/login', (req, res) => {
         res.status(400).json({ error: 'User does not exist' })
       }
     })
+    
     .catch(err => {
       res.status(400).json({ error: err })
     })
