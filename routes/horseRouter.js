@@ -29,6 +29,7 @@ horseRouter.get('/', (req,res) => {
 
 // Display horse with query 
 horseRouter.get('/search/?', (req,res) => {
+  const postal = req.query.localisation.substr(0,2)
   const min = Number(req.query.height) - 5 || 0;
   const max = Number(req.query.height) + 5 || 200;
   const discipline = req.query.discipline ;
@@ -47,6 +48,7 @@ horseRouter.get('/search/?', (req,res) => {
 
       // horse_localisation : req.query.localisation ,
       [Op.and]: [
+        {horse_localisation : { [Op.like]: '%'+ postal +'%' }},
         {horse_budget :  {[Op.lte]: req.query.budget} },//||{[Op.gte]: 1}}, // on get tous les chevaux avec une budgets inferieur au budget du cavalier ou a defaut tout les budget superieur à 1
         {horse_disciplines:{ [Op.like]: '%'+ discipline }}, // on get tous les chevaux avec la disicpline choisis où à defaut toutes les disciplines terminant par e 
         {horse_practice_structure: { [Op.like]: '%'+ structure }},
