@@ -93,9 +93,9 @@ module.exports = (sequelize, DataTypes) => {
 
         },
 
-        horse_other_fees :{
-            type: DataTypes.INTEGER,
-        },
+        // horse_other_fees :{
+        //     type: DataTypes.INTEGER,
+        // },
 
         horse_stroll_along :{
             type: DataTypes.BOOLEAN,
