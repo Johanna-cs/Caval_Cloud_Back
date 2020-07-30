@@ -44,32 +44,40 @@ riderRouter.get('/:id', (req,res) => {
 
 // Display Rider with query 
 riderRouter.get('/search/?', (req,res) => {
-  // const postal = req.query.localisation //.substr(0,2)
-  // const min = Number(req.query.age) - 3 || 0
-  // const max = Number(req.query.age) + 3 || 99
-  // const level = Number(req.query.level) || 0
-  // const vehiculed = req.query.vehiculed
-  // const budget = req.query.budget || 0
-  // const competition = req.query.competition || 0
-  // const getLesson = req.query.lesson || 0
-  // const managed = req.query.managed
-  // const getYears = Number(req.query.years) || 0 
-  // const disciplines = req.query.disciplines || ''
-  // const ridingFrequency = req.query.frequency || ''
-  // const regularity = req.query.regularity || 0
-  // const other_discipline = req.query.other_discipline 
+  const postal = req.query.localisation //.substr(0,2)
+  const min = Number(req.query.age) - 3 || 0
+  const max = Number(req.query.age) + 3 || 99
+  const level = Number(req.query.level) || 0
+  const vehiculed = req.query.vehiculed
+  const budget = req.query.budget || 0
+  const competition = req.query.competition || 0
+  const getLesson = req.query.lesson || 0
+  const managed = req.query.managed
+  const getYears = Number(req.query.years) || 0 
+  const disciplines = req.query.disciplines || ''
+  const ridingFrequency = req.query.frequency || ''
+  const regularity = req.query.regularity || 0
+  const other_discipline = req.query.other_discipline 
 
 
   models
   .Rider
   .findAll({
     where: {
-      // [Op.and]:[
+      [Op.and]:[
+        {rider_postal_code : { [Op.like]: '%'+ postal  }},
+        {rider_gallop_level : {[Op.gte] : level }},
+        {rider_age : { [Op.between]: [ min , max ]}},
+        {rider_vehiculed : vehiculed || {[Op.or] : [0,1]}},
+        {rider_managed_horse :req.query.managed || {[Op.or] : [0,1]}},
+        {rider_disciplines :{ [Op.like]: `%${req.query.discipline}%`}},
+        {rider_riding_frequency: { [Op.like]: `%${req.query.frequency}%`}},
+        {rider_fixed_day : req.query.fixed || {[Op.or] : [0,1]}},
+        {rider_own_saddle : req.query.saddle || {[Op.or] : [0,1]}},
+        {rider_competition : req.competition}
+      ],
 
-      // ],
-
-        rider_postal_code : { [Op.like]: `%${req.query.localisation}%` },
-        // rider_age : { [Op.between]: [ min , max ]} ,
+        // 
 
 
 

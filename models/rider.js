@@ -57,6 +57,17 @@ module.exports = (sequelize, DataTypes) => {
                 max : 99999
             }
         },
+        rider_localisation :{
+            type: DataTypes.STRING,
+            },
+    
+        rider_lat : {
+                type: DataTypes.FLOAT,
+            },
+    
+        rider_long : {
+                type: DataTypes.FLOAT,
+            },
 
         rider_biography : {
             type : DataTypes.STRING,
