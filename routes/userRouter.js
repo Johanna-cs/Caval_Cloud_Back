@@ -47,6 +47,55 @@ userRouter.post('/register', (req, res) => {
         })
         .catch(err => res.send(err))
 })
+
+// se connecter login 
+userRouter.post('/login', (req, res) => {
+  models
+  .User
+  .findOne({
+    where: {
+      user_email: req.body.user_email
+    }
+  })
+    .then(user => {
+      if (user) {
+        if (bcrypt.compareSync(req.body.user_password, user.user_password)) {
+          let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
+            expiresIn: 1440
+          })
+          res.send(token)
+        }
+      } else {
+        res.status(400).json({ error: 'User does not exist' })
+      }
+    })
+    
+    .catch(err => {
+      res.status(400).json({ error: err })
+    })
+})
+// profil
+userRouter.get('/profile', (req, res) => {
+  const decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
+    .User.findOne({
+      where : {
+        user_ID : req.params.id,
+        user_ID: decoded.user_ID
+        
+      }
+    })
+    .then( user => {
+      if (user) {
+        res.json(user)
+      } else {
+        res.send('User does not exist')
+      }
+    })
+    .catch(err => {
+      res.send('error : ' + err)
+    })
+})
+
 // Display one user from its ID: 
 userRouter.get('/:id', (req,res) => {
   models
@@ -76,41 +125,9 @@ userRouter.get('/', (req,res) => {
     .findAll({include:[models.Rider]})
     .then(x => res.json(x))
 })
-// se connecter login 
 
-userRouter.post('/login', (req, res) => {
-  models
-  .User
-  .findOne({
-    where: {
-      user_email: req.body.user_email
-    }
-  })
-    .then(user => {
-      if (user) {
-        if (bcrypt.compareSync(req.body.user_password, user.user_password)) {
-          let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
-            expiresIn: 1440
-          })
-          res.send(token)
-        }
-      } else {
-        res.status(400).json({ error: 'User does not exist' })
-      }
-    })
-    
-    .catch(err => {
-      res.status(400).json({ error: err })
-    })
-})
 
-// profil
-userRouter.get('/profile', (req, res) => {
-  const decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
-    .User
-    .create(req.body)
-    .then(x => res.json(x))
-});
+
 
 // Update user information from its ID
 // userRouter.put('/:id', (req,res) => {
