@@ -211,9 +211,9 @@ module.exports = (sequelize, DataTypes) => {
             type : DataTypes.INTEGER,
         },
 
-        ideal_horse_age: {
-            type : DataTypes.INTEGER,
-        },
+        // ideal_horse_age: {
+        //     type : DataTypes.INTEGER,
+        // },
 
         ideal_horse_temper: {
             type : DataTypes.STRING,
