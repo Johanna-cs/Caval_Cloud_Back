@@ -21,16 +21,20 @@ userRouter.post('/register', (req, res) => {
         user_accept_CGV :req.body.user_accept_CGV,
         createdAt: today
     }
+  if (user_email == null || user_lastname == null || user_password == null || user_accept_CGV == null){
+    return res.status(400).json({ 'error' : 'missing parameters'})
+  }
+
     models
         .User
         .findOne({
             where: {
-              user_email: req.body.user_email
+              user_email: user_email
             }
         })
         .then(user => {
             if (!user) {
-                bcrypt.hash(req.body.user_password, 10, (err, hash) => {
+                bcrypt.hash(user_password, 10, (err, hash) => {
                     userData.user_password = hash
                     models
                     .User
@@ -60,7 +64,7 @@ userRouter.post('/login', (req, res) => {
     .then(user => {
       if (user) {
         if (bcrypt.compareSync(req.body.user_password, user.user_password)) {
-          let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
+          let token = jwt.sign(user.user_ID,user.user_email, user.user_isAdmin, process.env.SECRET_KEY, {
             expiresIn: 1440
           })
           res.send(token)
@@ -77,11 +81,9 @@ userRouter.post('/login', (req, res) => {
 // profil
 userRouter.get('/profile', (req, res) => {
   const decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
-    .User.findOne({
+    User.findOne({
       where : {
-        user_ID : req.params.id,
         user_ID: decoded.user_ID
-        
       }
     })
     .then( user => {
@@ -95,6 +97,9 @@ userRouter.get('/profile', (req, res) => {
       res.send('error : ' + err)
     })
 })
+
+
+
 
 // Display one user from its ID: 
 userRouter.get('/:id', (req,res) => {
@@ -127,32 +132,6 @@ userRouter.get('/', (req,res) => {
 })
 
 
-
-
-// Update user information from its ID
-// userRouter.put('/:id', (req,res) => {
-//   models
-//   .User
-//   .findOne({
-//     where: {
-//       // user_ID: decoded.user_ID
-//       user_ID : req.params.id
-//     }
-//   })
-//   .then(x => res.json(x))
-
-//     // .then(user => {
-//     //   if (user) {
-//     //     res.json(user)
-//     //   } else {
-//     //     res.send('User does not exist')
-//     //   }
-//     // })
-//     // .catch(err => {
-//     //   res.send('error: ' + err)
-//     // })
-// })
-
 // Display all users :
 userRouter.get('/', (req,res) => {
   models
@@ -163,7 +142,7 @@ userRouter.get('/', (req,res) => {
   }
 )
 
-// Update user information from its ID (V2):
+// Update user information from its ID :
 
 userRouter.put('/:id', (req, res) => {
   models
