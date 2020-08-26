@@ -60,6 +60,10 @@ userRouter.post('/login', (req, res) => {
   let user_email = req.body.user_email
   let user_password = req.body.user_password
 
+  if (user_email == null ||  user_password == null) {
+    return res.status(400).json({ 'error': 'missing parameters' });
+  }
+
   // TODO verify pseudo length, mail regex, password :
 
   models.User
@@ -68,11 +72,11 @@ userRouter.post('/login', (req, res) => {
   })
   .then(userFound => {
       if (userFound) {
-        bcrypt.compareSync(user_password, userFound.user_password, (errHash, resHash) => {
+        bcrypt.compare(user_password, userFound.user_password, (errHash, resHash) => {
           if (resHash) {
             res.status(200).json({
               'user_ID' : userFound.user_ID,
-              'token' : 'jwtUtils.generateTokenForUser(userFound)'
+              'token' : jwtUtils.generateTokenForUser(userFound)
             })
           } else {
             res.status(403).json({"error" : "invalid password"})
