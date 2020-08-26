@@ -62,8 +62,12 @@ module.exports = (sequelize, DataTypes) => {
         horse_long : {
                 type: DataTypes.FLOAT,
             },
-    
 
+        horse_geolocation: {
+                type: DataTypes.GEOMETRY('POINT'),
+                allowNull: true
+            },
+    
         horse_coaching_here:{
             type: DataTypes.BOOLEAN,
             defaultValue: 0
@@ -85,12 +89,6 @@ module.exports = (sequelize, DataTypes) => {
             validate : {
                 max : 5
             }
-        },
-
-        horse_rider_need_own_saddle : {
-            type: DataTypes.BOOLEAN,
-            defaultValue: 0,
-
         },
 
         // horse_other_fees :{
@@ -187,7 +185,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,   
         },
 
-        owner_caracter : {
+        owner_character : {
             type : DataTypes.STRING,
             validate : {
                 max : 80,
