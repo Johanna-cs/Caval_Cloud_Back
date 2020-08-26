@@ -2,6 +2,7 @@ const express = require('express')
 const userRouter = express.Router()
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
+const jwtUtils = require('../utils/jwt-utils')
 const bcrypt = require('bcryptjs')
 const models = require('../models')
 
@@ -10,78 +11,87 @@ userRouter.use(cors())
 process.env.SECRET_KEY = 'secret'
 
 
-// creer un compte register
+// REGISTER 
 userRouter.post('/register', (req, res) => {
-    const today = new Date()
-    const userData = {
-        user_firstname: req.body.user_firstname,
-        user_lastname: req.body.user_lastname,
-        user_email: req.body.user_email,
-        user_password: req.body.user_password,
-        user_accept_CGV :req.body.user_accept_CGV,
-        createdAt: today
-    }
-    models
-        .User
+    
+  // Params
+  let user_firstname = req.body.user_firstname
+  let user_lastname = req.body.user_lastname
+  let user_email = req.body.user_email
+  let user_password = req.body.user_password
+  let user_accept_CGV = req.body.user_accept_CGV
+    
+  if (user_email == null || user_lastname == null || user_password == null || user_accept_CGV == null){
+    return res.status(400).json({ 'error' : 'missing parameters'})
+  }
+
+  // TODO verify pseudo length, mail regex, password :
+
+    models.User
         .findOne({
-            where: {
-              user_email: req.body.user_email
-            }
+          attributes : ['user_email'],
+          where: { user_email: user_email}
         })
         .then(user => {
             if (!user) {
-                bcrypt.hash(req.body.user_password, 10, (err, hash) => {
-                    userData.user_password = hash
-                    models
-                    .User
-                    .create(userData)
-                        .then(user => {
-                            res.json({ status: user.user_email + ' registered' })
-                        })
-                        .catch(err => res.status(400).send(err))
-                })
-            }
-            else {
-                res.json({ error: "User already exist" })
+                bcrypt.hash(user_password, 10, (err, hash) => {
+                  let newUser = models.User.create({
+                    user_firstname : user_firstname,
+                    user_lastname : user_lastname,
+                    user_email : user_email,
+                    user_password : hash,
+                    user_accept_CGV,
+                    user_isAdmin : 0     
+                  })
+                .then(newUser => res.status(201).json({newUser}))
+                .catch(err => res.status(500).json({ 'error' : 'cannot add user' }))
+              })  
+            } else {
+                res.status(409).json({ 'error' : 'user already exist' })
             }
         })
-        .catch(err => res.send(err))
+        .catch(err => res.status(500).json('error : unable to verify user'))
 })
 
-// se connecter login 
+// LOGIN
 userRouter.post('/login', (req, res) => {
-  models
-  .User
+
+  // Params
+  let user_email = req.body.user_email
+  let user_password = req.body.user_password
+
+  // TODO verify pseudo length, mail regex, password :
+
+  models.User
   .findOne({
-    where: {
-      user_email: req.body.user_email
-    }
+    where: { user_email: user_email}
   })
-    .then(user => {
-      if (user) {
-        if (bcrypt.compareSync(req.body.user_password, user.user_password)) {
-          let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
-            expiresIn: 1440
-          })
-          res.send(token)
-        }
+  .then(userFound => {
+      if (userFound) {
+        bcrypt.compareSync(user_password, userFound.user_password, (errHash, resHash) => {
+          if (resHash) {
+            res.status(200).json({
+              'user_ID' : userFound.user_ID,
+              'token' : 'jwtUtils.generateTokenForUser(userFound)'
+            })
+          } else {
+            res.status(403).json({"error" : "invalid password"})
+          }
+        }) 
       } else {
-        res.status(400).json({ error: 'User does not exist' })
+        res.status(404).json({ 'error': 'user does not exist in database' })
       }
-    })
-    
-    .catch(err => {
-      res.status(400).json({ error: err })
-    })
+  }) 
+  .catch(err => {
+      res.status(500).json({ 'error' : 'unable to verify user' })
+  })
 })
-// profil
+// MY PROFILE 
 userRouter.get('/profile', (req, res) => {
   const decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
-    .User.findOne({
+    User.findOne({
       where : {
-        user_ID : req.params.id,
         user_ID: decoded.user_ID
-        
       }
     })
     .then( user => {
@@ -95,6 +105,9 @@ userRouter.get('/profile', (req, res) => {
       res.send('error : ' + err)
     })
 })
+
+
+
 
 // Display one user from its ID: 
 userRouter.get('/:id', (req,res) => {
@@ -127,32 +140,6 @@ userRouter.get('/', (req,res) => {
 })
 
 
-
-
-// Update user information from its ID
-// userRouter.put('/:id', (req,res) => {
-//   models
-//   .User
-//   .findOne({
-//     where: {
-//       // user_ID: decoded.user_ID
-//       user_ID : req.params.id
-//     }
-//   })
-//   .then(x => res.json(x))
-
-//     // .then(user => {
-//     //   if (user) {
-//     //     res.json(user)
-//     //   } else {
-//     //     res.send('User does not exist')
-//     //   }
-//     // })
-//     // .catch(err => {
-//     //   res.send('error: ' + err)
-//     // })
-// })
-
 // Display all users :
 userRouter.get('/', (req,res) => {
   models
@@ -163,7 +150,7 @@ userRouter.get('/', (req,res) => {
   }
 )
 
-// Update user information from its ID (V2):
+// Update user information from its ID :
 
 userRouter.put('/:id', (req, res) => {
   models
