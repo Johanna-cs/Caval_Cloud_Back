@@ -125,6 +125,7 @@ userRouter.put('/profile', (req, res) => {
 
  let user_firstname = req.body.user_firstname
  let user_lastname = req.body.user_lastname
+ let user_password = req.body.user_password
  let user_avatar = req.body.user_avatar
  let user_phone = req.body.user_phone
 
@@ -146,7 +147,8 @@ userRouter.put('/profile', (req, res) => {
         if(userFound) {
           userFound.update({
             user_firstname: (user_firstname ? user_firstname : userFound.user_firstname), 
-            user_lastname: (user_lastname ? user_lastname : userFound.user_lasttname),
+            user_lastname: (user_lastname ? user_lastname : userFound.user_lastname),
+            user_password: (user_password ? user_password : userFound.user_password),
             user_phone: (user_phone ? user_phone : userFound.user_phone),
             user_avatar: (user_avatar ? user_avatar : userFound.user_avatar),
           }).then(function() {
