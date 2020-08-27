@@ -40,7 +40,7 @@ userRouter.post('/register', (req, res) => {
                     user_lastname : user_lastname,
                     user_email : user_email,
                     user_password : hash,
-                    user_accept_CGV,
+                    user_accept_CGV : user_accept_CGV,
                     user_isAdmin : 0     
                   })
                 .then(newUser => res.status(201).json({newUser}))
