@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 const jwtUtils = require('../utils/jwt-utils')
 const bcrypt = require('bcryptjs')
 const models = require('../models')
+const asyncLib  = require('async');
 
 userRouter.use(cors())
 
@@ -92,95 +93,93 @@ userRouter.post('/login', (req, res) => {
 })
 // MY PROFILE 
 userRouter.get('/profile', (req, res) => {
-  const decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
-    User.findOne({
-      where : {
-        user_ID: decoded.user_ID
-      }
+  // Getting auth header
+  let headerAuth  = req.headers['authorization'];
+  let user_ID      = jwtUtils.getUserId(headerAuth);
+
+  if (user_ID < 0)
+    return res.status(400).json({ 'error': 'wrong token' });
+
+    models.User.findOne({
+      attributes: [ 'user_ID', 'user_email', 'user_firstname', 'user_lastname', 'user_avatar', 'user_phone' ],
+      where: { user_ID : user_ID }
     })
-    .then( user => {
+    .then(function(user) {
       if (user) {
-        res.json(user)
+        res.status(201).json(user);
       } else {
-        res.send('User does not exist')
+        res.status(404).json({ 'error': 'user not found' });
       }
     })
-    .catch(err => {
-      res.send('error : ' + err)
+    .catch(function(err) {
+      res.status(500).json({ 'error': 'cannot fetch user' });
+    });
+})
+ 
+// updating MY PROFILE 
+
+userRouter.put('/profile', (req, res) => {
+ // Getting auth header
+ let headerAuth  = req.headers['authorization'];
+ let user_ID = jwtUtils.getUserId(headerAuth)
+
+ let user_firstname = req.body.user_firstname
+ let user_lastname = req.body.user_lastname
+ let user_avatar = req.body.user_avatar
+ let user_phone = req.body.user_phone
+
+
+
+    asyncLib.waterfall([
+      function(done) {
+        models.User.findOne({
+          attributes: ['user_ID','user_email', 'user_firstname', 'user_lastname', 'user_avatar', 'user_phone' ],
+          where: { user_ID: user_ID }
+        }).then(function (userFound) {
+          done(null, userFound);
+        })
+        .catch(function(err) {
+          return res.status(500).json({ 'error': 'unable to verify user' });
+        });
+      },
+      function(userFound, done) {
+        if(userFound) {
+          userFound.update({
+            user_firstname: (user_firstname ? user_firstname : userFound.user_firstname), 
+            user_lastname: (user_lastname ? user_lastname : userFound.user_lasttname),
+            user_phone: (user_phone ? user_phone : userFound.user_phone),
+            user_avatar: (user_avatar ? user_avatar : userFound.user_avatar),
+          }).then(function() {
+            done(userFound);
+          }).catch(function(err) {
+            res.status(500).json({ 'error': 'cannot update user' });
+          });
+        } else {
+          res.status(404).json({ 'error': 'user not found' });
+        }
+      },
+    ], function(userFound) {
+      if (userFound) {
+        return res.status(201).json(userFound);
+      } else {
+        return res.status(500).json({ 'error': 'cannot update user profile' });
+      }
     })
 })
-
-
-
-
-// Display one user from its ID: 
-userRouter.get('/:id', (req,res) => {
-  models
-    .User
-    .findOne({
-      where: {
-        user_ID : req.params.id
-      }})
-    .then(x => res.json(x))
-})
-
-// Display one user from its email: 
-userRouter.get('/:email', (req,res) => {
-  models
-    .User
-    .findOne({
-      where: {
-        user_email : req.params.user_email
-      }})
-    .then(x => res.json(x))
-})
-
-// Display all users :
-userRouter.get('/', (req,res) => {
-  models
-    .User
-    .findAll({include:[models.Rider]})
-    .then(x => res.json(x))
-})
-
-
-// Display all users :
-userRouter.get('/', (req,res) => {
-  models
-    .User
-    .findAll({include:[models.Rider]})
-    .then(x => res.json(x))
-
-  }
-)
-
-// Update user information from its ID :
-
-userRouter.put('/:id', (req, res) => {
-  models
-      .User
-      .update(req.body, {
-          where: {
-              user_ID: req.params.id
-          }
-      })
-      .then(x => res.json(x))
-    })
-
-
 
 // Delete user from its ID
-userRouter.delete('/:id', (req,res) => {
-  models
-    .User
-    .destroy({
-      where: {
-        user_ID : req.params.id
-      }
-    })
-    .then(res.send("user deleted"))
-});
+// userRouter.delete('/:id', (req,res) => {
+//   models
+//     .User
+//     .destroy({
+//       where: {
+//         user_ID : req.params.id
+//       }
+//     })
+//     .then(res.send("user deleted"))
+// });
 
+// FAVORIS
 
 // Add a horse within user favorites
 userRouter.post('/addFavoriteHorse', (req,res) => {
