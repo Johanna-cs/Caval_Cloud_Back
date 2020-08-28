@@ -1,16 +1,12 @@
 const express = require('express')
 const userRouter = express.Router()
 const cors = require('cors')
-const jwt = require('jsonwebtoken')
 const jwtUtils = require('../utils/jwt-utils')
 const bcrypt = require('bcryptjs')
 const models = require('../models')
 const asyncLib  = require('async');
 
 userRouter.use(cors())
-
-process.env.SECRET_KEY = 'secret'
-
 
 // REGISTER 
 userRouter.post('/register', (req, res) => {
@@ -62,7 +58,7 @@ userRouter.post('/login', (req, res) => {
   let user_password = req.body.user_password
 
   if (user_email == null ||  user_password == null) {
-    return res.status(400).json({ 'error': 'missing parameters' });
+    return res.status(400).json({ 'error': 'Des paramètres sont manquants' });
   }
 
   // TODO verify pseudo length, mail regex, password :
@@ -80,15 +76,16 @@ userRouter.post('/login', (req, res) => {
               'token' : jwtUtils.generateTokenForUser(userFound)
             })
           } else {
-            res.status(403).json({"error" : "invalid password"})
+            res.status(403).json({"error" : "Mot de passe incorrect"})
           }
         }) 
       } else {
-        res.status(404).json({ 'error': 'user does not exist in database' })
+        res.status(404).json({'error' : `L'utilisateur saisi 
+        n'existe pas`})
       }
   }) 
   .catch(err => {
-      res.status(500).json({ 'error' : 'unable to verify user' })
+      res.status(500).json({ 'error' : `Impossible de vérifier l'utilisateur` })
   })
 })
 // MY PROFILE 
@@ -108,11 +105,11 @@ userRouter.get('/profile', (req, res) => {
       if (user) {
         res.status(201).json(user);
       } else {
-        res.status(404).json({ 'error': 'user not found' });
+        res.status(404).json({ 'error': `Utilisateur non trouvé` });
       }
     })
     .catch(function(err) {
-      res.status(500).json({ 'error': 'cannot fetch user' });
+      res.status(500).json({ 'error': `Impossible de récupérer les données de l'utilisateur` });
     });
 })
  
@@ -140,7 +137,7 @@ userRouter.put('/profile', (req, res) => {
           done(null, userFound);
         })
         .catch(function(err) {
-          return res.status(500).json({ 'error': 'unable to verify user' });
+          return res.status(500).json({ 'error': `Impossible de vérifier l'utilisateur` });
         });
       },
       function(userFound, done) {
@@ -154,20 +151,33 @@ userRouter.put('/profile', (req, res) => {
           }).then(function() {
             done(userFound);
           }).catch(function(err) {
-            res.status(500).json({ 'error': 'cannot update user' });
+            res.status(500).json({ 'error': `Impossible de mettre à jour l'utilisateur` });
           });
         } else {
-          res.status(404).json({ 'error': 'user not found' });
+          res.status(404).json({ 'error': 'Utilisateur non trouvé' });
         }
       },
     ], function(userFound) {
       if (userFound) {
         return res.status(201).json(userFound);
       } else {
-        return res.status(500).json({ 'error': 'cannot update user profile' });
+        return res.status(500).json({ 'error': `Impossible de mettre à jour les données de l'utilisateur` });
       }
     })
 })
+
+
+// GET User avatar, phone number and email from its ID
+userRouter.get('/:id', (req,res) => {
+  models
+    .User
+    .findOne({
+      attributes: ['user_avatar', 'user_phone', 'user_email' ],
+      where: { user_ID : req.params.id }
+    })
+    .then((x) => res.json(x))
+    .catch((err) => res.status(500).json({ 'error': `Impossible de récupérer les données de l'utilisateur` }));
+});
 
 // Delete user from its ID
 // userRouter.delete('/:id', (req,res) => {

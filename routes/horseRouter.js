@@ -200,6 +200,7 @@ horseRouter.post('/', (req,res) => {
         horse_practice_structure : req.body.horse_practice_structure,
         horse_disciplines : req.body.horse_disciplines,
         horse_material : req.body.horse_material,
+        user_ID : req.body.user_ID,
         owner_firstname : req.body.owner_firstname,
         owner_age : req.body.owner_age,
         owner_character : req.body.owner_caracter,
