@@ -69,6 +69,12 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.FLOAT,
             },
 
+        rider_geolocation: {
+            type: DataTypes.GEOMETRY('POINT'),
+            allowNull: true
+        },
+
+
         rider_biography : {
             type : DataTypes.STRING,
             validate : {
@@ -222,7 +228,7 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
 
-        ideal_horse_caracter: {
+        ideal_horse_character: {
             type : DataTypes.STRING,
             validate : {
                 max : 80

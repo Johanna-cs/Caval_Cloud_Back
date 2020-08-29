@@ -193,103 +193,132 @@ userRouter.get('/:id', (req,res) => {
 
 // FAVORIS
 
-// Add a horse within user favorites
-userRouter.post('/addFavoriteHorse', (req,res) => {
-  const user_ID = req.body.user_ID
-  const horse_ID = Number(req.body.horse_ID)
-  const horse_name = req.body.horse_name
-  const horse_photo1 = req.body.horse_photo1
-  models
-    .FavoriteHorses
-    .create({
-      user_ID: user_ID,
-      horse_ID: horse_ID,
-      horse_name : horse_name,
-      horse_photo1 : horse_photo1,
-    })
-    .then(res.send(`a new favorite horse has been added`))
+  // Add a horse within user favorites
 
-});
 
-// Add a rider within user favorites
-userRouter.post('/addFavoriteRider', (req,res) => {
-  const user_ID = req.body.user_ID
-  const rider_ID = Number(req.body.rider_ID)
-  const rider_firstname = req.body.rider_firstname
-  const rider_photo1 = req.body.rider_photo1
-  models
-    .FavoriteRiders
-    .create({
-      user_ID: user_ID,
-      rider_ID: rider_ID,
-      rider_firstname : rider_firstname,
-      rider_photo1 : rider_photo1,
-    })
-    .then(res.send(`a new favorite rider has been added`))
+    userRouter.post('/addFavoriteHorse', (req,res) => {
+      
+      // Getting auth header
+      let headerAuth  = req.headers['authorization'];
+      let user_ID = jwtUtils.getUserId(headerAuth)    
 
-});
+      //Params
+      const horse_ID = Number(req.body.horse_ID)
+      const horse_name = req.body.horse_name
+      const horse_photo1 = req.body.horse_photo1
 
-// Delete horse within user favorite from its ID
-userRouter.delete('/deleteFavoriteHorse/:id', (req,res) => {
-  models
-    .FavoriteHorses
-    .destroy({
-      where: {
-        user_ID : req.params.id
-      }
-    })
-    .then(res.send("horse favorite deleted"))
-});
+      models
+        .FavoriteHorses
+        .create({
+          user_ID: user_ID,
+          horse_ID: horse_ID,
+          horse_name : horse_name,
+          horse_photo1 : horse_photo1,
+        })
+        .then(res.status(200).send(`a new favorite horse has been added`))
 
-// Delete rider within user favorite from its ID
-userRouter.delete('/deleteFavoriteRider/:id', (req,res) => {
-  models
-    .FavoriteRiders
-    .destroy({
-      where: {
-        user_ID : req.params.id
-      }
-    })
-    .then(res.send("rider favorite deleted"))
-});
+  });
 
-// Display horse favorites from userID: 
-userRouter.get('/favorites/horses/:id', (req,res) => {
-  models
-    .FavoriteHorses
-    .findAll(
-      {
-      where: {
-        user_ID : req.params.id
-      },
+  // Add a rider within user favorites
+  userRouter.post('/addFavoriteRider', (req,res) => {
+
+    // Getting auth header
+    let headerAuth  = req.headers['authorization'];
+    let user_ID = jwtUtils.getUserId(headerAuth) 
+
+    //Params
+    const rider_ID = Number(req.body.rider_ID)
+    const rider_firstname = req.body.rider_firstname
+    const rider_photo1 = req.body.rider_photo1
+    
+    models
+      .FavoriteRiders
+      .create({
+        user_ID: user_ID,
+        rider_ID: rider_ID,
+        rider_firstname : rider_firstname,
+        rider_photo1 : rider_photo1,
       })
-    .then(item => {
-      if(item) {
-        res.json(item)
-        } else {
-        res.json({message : 'No favorited horses'})
+      .then(res.status(200).send(`a new favorite rider has been added`))
+
+  });
+
+  // Delete horse within user favorite from its ID
+  userRouter.delete('/deleteFavoriteHorse/:id', (req,res) => {
+
+    // Getting auth header
+    let headerAuth  = req.headers['authorization'];
+    let user_ID = jwtUtils.getUserId(headerAuth)    
+    
+    models
+      .FavoriteHorses
+      .destroy({
+        where: {user_ID : user_ID}
+      })
+      .then(res.send("horse favorite deleted"))
+  });
+
+  // Delete rider within user favorite from its ID
+  userRouter.delete('/deleteFavoriteRider/:id', (req,res) => {
+    models
+      .FavoriteRiders
+      .destroy({
+        where: {
+          user_ID : req.params.id
         }
-    })
+      })
+      .then(res.send("rider favorite deleted"))
   })
 
-  // Display rider favorites from userID: 
-userRouter.get('/favorites/riders/:id', (req,res) => {
-  models
-    .FavoriteRiders
-    .findAll(
-      {
-      where: {
-        user_ID : req.params.id
-      },
+  // Display horses saved in my favorites  
+  userRouter.get('/myfavorites/horses', (req,res) => {
+
+    // Getting auth header
+    let headerAuth = req.headers['authorization'];
+    let user_ID = jwtUtils.getUserId(headerAuth)
+    
+    if (user_ID < 0)
+      return res.status(400).json({ 'error': 'wrong token' });
+    
+    models
+      .FavoriteHorses
+      .findAll({
+        where: { user_ID : user_ID}
       })
-    .then(item => {
-      if(item) {
-        res.json(item)
-        } else {
-        res.json({message : 'No favorited riders'})
-        }
-    })
-  })
+      .then(item => {
+        if (item) {
+          res.json(item) } 
+        else {
+          res.status(400).json({'error' : 'No favorited horses'})
+          }
+      })
+    }
+  )
+
+  // Display riders saved in my favorites  
+  userRouter.get('/myfavorites/riders', (req,res) => {
+
+      // Getting auth header
+      let headerAuth = req.headers['authorization'];
+      let user_ID = jwtUtils.getUserId(headerAuth)
+      
+      if (user_ID < 0)
+        return res.status(400).json({ 'error': 'wrong token' });
+    
+      models
+        .FavoriteRiders
+        .findAll({ 
+          where: {user_ID : user_ID }
+            })
+        .then(item => {
+          if(item) {
+            res.json(item) } 
+          else {
+            res.status(400).json({'error' : 'No favorited riders'})
+            }
+        })
+    }
+)
 
 
 

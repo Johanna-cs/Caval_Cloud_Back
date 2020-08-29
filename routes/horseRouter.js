@@ -4,6 +4,7 @@ const horseRouter = express.Router();
 const models = require('../models'); 
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const jwtUtils = require('../utils/jwt-utils')
 const bodyParser = require('body-parser');
 const owner = require('../models/owner_presentation')
 
@@ -151,10 +152,8 @@ horseRouter.get('/:id', (req,res) => {
   models
     .Horse
     .findAll({
-      where: {
-        horse_ID: req.params.id
-      }
-    },{include: [models.User]})
+      where: { horse_ID: req.params.id },
+      include: [models.User]})
     .then(x => res.json(x))
 });
 
@@ -163,8 +162,14 @@ horseRouter.get('/:id', (req,res) => {
 
 horseRouter.post('/', (req,res) => {
 
-  let lat = parseFloat(req.body.horse_lat) || 1;
-  let lng = parseFloat(req.body.horse_long) || 2 ;
+
+   // Getting auth header
+ let headerAuth  = req.headers['authorization'];
+ let user_ID = jwtUtils.getUserId(headerAuth)
+
+  // Getting user's GPS coordinates
+ let lat = parseFloat(req.body.horse_lat) || 1;
+ let lng = parseFloat(req.body.horse_long) || 2 ;
 
   // Le point géométrique pour ensuite calculer les résultats à proximité :
   let location = Sequelize.literal(`ST_GeomFromText('POINT(${lng} ${lat})', 4326)`);
@@ -200,7 +205,7 @@ horseRouter.post('/', (req,res) => {
         horse_practice_structure : req.body.horse_practice_structure,
         horse_disciplines : req.body.horse_disciplines,
         horse_material : req.body.horse_material,
-        user_ID : req.body.user_ID,
+        user_ID : user_ID,
         owner_firstname : req.body.owner_firstname,
         owner_age : req.body.owner_age,
         owner_character : req.body.owner_caracter,
@@ -213,9 +218,9 @@ horseRouter.post('/', (req,res) => {
         ideal_rider_vehiculed : req.body.ideal_rider_vehiculed,
         ideal_rider_managed_horse: req.body.ideal_rider_managed_horse,
           
-      })
-        
+      }) 
       .then(x => res.json(x))
+      .catch(err => res.send(err))
 });
 
 
