@@ -248,26 +248,43 @@ userRouter.get('/:id', (req,res) => {
 
     // Getting auth header
     let headerAuth  = req.headers['authorization'];
-    let user_ID = jwtUtils.getUserId(headerAuth)    
+    let user_ID = jwtUtils.getUserId(headerAuth)
+    
+    // Params
+    let horse_ID = req.params.id
     
     models
       .FavoriteHorses
       .destroy({
-        where: {user_ID : user_ID}
+        where: {
+          user_ID : user_ID,
+          horse_ID : horse_ID}
       })
-      .then(res.send("horse favorite deleted"))
-  });
+      .then(res.status(200).send("L'annonce a bien été supprimée de vos favoris"))
+      .catch((err) => res.status(500).json({ 'error': `Impossible de supprimer l'annonce` }));
+    });
 
   // Delete rider within user favorite from its ID
   userRouter.delete('/deleteFavoriteRider/:id', (req,res) => {
+
+    // Getting auth header
+    let headerAuth  = req.headers['authorization'];
+    let user_ID = jwtUtils.getUserId(headerAuth)
+    
+    // Params
+    let rider_ID = req.params.id
+
     models
       .FavoriteRiders
       .destroy({
         where: {
-          user_ID : req.params.id
+          user_ID : user_ID,
+          rider_ID : rider_ID
         }
       })
-      .then(res.send("rider favorite deleted"))
+      .then(res.status(200).send("L'annonce a bien été supprimée de vos favoris"))
+      .catch((err) => res.status(500).json({ 'error': `Impossible de supprimer l'annonce` }));
+
   })
 
   // Display horses saved in my favorites  
