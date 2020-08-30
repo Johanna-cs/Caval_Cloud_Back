@@ -7,8 +7,6 @@ const { Op } = require("sequelize")
 const bodyParser = require('body-parser');
 const jwtUtils = require('../utils/jwt-utils')
 
-
-
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
@@ -23,12 +21,15 @@ app.use(bodyParser.urlencoded({
 riderRouter.get('/', (req,res) => {
   models
     .Rider
-    .findAll({include: [models.User]})
+    .findAll({
+      include: [{
+        model : models.User, 
+        attributes : ['user_email', 'user_phone', 'user_avatar']
+      }]})
     .then(x => res.json(x))
 
   }
 )
-
 
 // Display rider information from its ID :
 
@@ -37,12 +38,16 @@ riderRouter.get('/:id', (req,res) => {
     .Rider
     .findAll({
       where: { rider_ID: req.params.id },
-      include: [models.User]})
+      include: [{
+        model : models.User, 
+        attributes : ['user_email', 'user_phone', 'user_avatar']
+      }]})
     .then(x => res.json(x))
 });
 
 // Display Rider with query 
 riderRouter.get('/search/?', (req,res) => {
+
   const postal = req.query.localisation //.substr(0,2)
   const min = Number(req.query.age) - 3 || 0
   const max = Number(req.query.age) + 3 || 99
@@ -136,6 +141,7 @@ let location = Sequelize.literal(`ST_GeomFromText('POINT(${lng} ${lat})', 4326)`
       rider_localisation : req.body.localisation,
       rider_long : req.body.rider_long,
       rider_lat : req.body.rider_lat,
+      rider_geolocation : location,
       rider_biography: req.body.rider_biography,
       rider_selfWord1: req.body.rider_selfWord1,
       rider_selfWord2: req.body.rider_selfWord2,
@@ -168,30 +174,28 @@ let location = Sequelize.literal(`ST_GeomFromText('POINT(${lng} ${lat})', 4326)`
 });
 
 // Update rider information from its ID :
-
-riderRouter.put('/:id', (req,res) => {
-  models
-    .Rider
-    .update(req.body,{
-      where: {
-        rider_ID: req.params.id
-      }
-    })
-    .then(x => res.json(x))
-});
+  // riderRouter.put('/:id', (req,res) => {
+  //   models
+  //     .Rider
+  //     .update(req.body,{
+  //       where: {
+  //         rider_ID: req.params.id
+  //       }
+  //     })
+  //     .then(x => res.json(x))
+  // });
 
 // Delete a rider from its ID :
-
-riderRouter.delete('/:id', (req,res) => {
-  models
-    .Rider
-    .destroy({
-      where: {
-        rider_ID : req.params.id
-      }
-    })
-    .then(res.send("rider deleted"))
-});
+//   riderRouter.delete('/:id', (req,res) => {
+//     models
+//       .Rider
+//       .destroy({
+//         where: {
+//           rider_ID : req.params.id
+//         }
+//       })
+//       .then(res.send("rider deleted"))
+// });
 
 
 

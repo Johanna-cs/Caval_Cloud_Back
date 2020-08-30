@@ -5,8 +5,6 @@ const models = require('../models');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const jwtUtils = require('../utils/jwt-utils')
-const bodyParser = require('body-parser');
-const owner = require('../models/owner_presentation')
 
 app.use(express.json());
 app.use(express.urlencoded({
@@ -19,8 +17,14 @@ app.use(express.urlencoded({
 horseRouter.get('/', (req,res) => {
   models
     .Horse
-    .findAll({include: [models.User]})
+    .findAll({
+      include: [{
+        model : models.User, 
+        attributes : ['user_email', 'user_phone', 'user_avatar']
+      }]})
     .then(x => res.json(x))
+    .catch(err => res.send(err))
+
 
   }
 )
@@ -40,8 +44,8 @@ horseRouter.get('/research/?', (req, res) => {
     let location = Sequelize.literal(`ST_GeomFromText('POINT(${lng} ${lat})', 4326)`)
     let distance = Sequelize.fn('ST_Distance_Sphere', Sequelize.literal('horse_geolocation'), location)
 
-    // Récupération de la distance maximale des résultats par rapport au user, si pas défini le rayon par défaut est de 50km
-    let distanceMax = req.query.distanceMax || 50000
+    // Récupération de la distance maximale des résultats par rapport au user, si pas défini le rayon par défaut est de 100km
+    let distanceMax = req.query.distanceMax || 100000
 
     models.Horse
       .findAll({
@@ -59,10 +63,12 @@ horseRouter.get('/research/?', (req, res) => {
   else {
     models.Horse
     .findAll({
-      include : [ models.User]
-      })
+      include: [{
+        model : models.User, 
+        attributes : ['user_email', 'user_phone', 'user_avatar']
+      }]})
     .then(x => res.json(x))
-      }
+  }
 })
 
 
@@ -141,8 +147,10 @@ horseRouter.get('/search/?', (req,res) => {
 
     },    
 
-    include : [ models.User]
-  })
+    include: [{
+      model : models.User, 
+      attributes : ['user_email', 'user_phone', 'user_avatar']
+      }]})
   .then(x => res.json(x))
 
 })
@@ -153,7 +161,10 @@ horseRouter.get('/:id', (req,res) => {
     .Horse
     .findAll({
       where: { horse_ID: req.params.id },
-      include: [models.User]})
+      include: [{
+        model : models.User, 
+        attributes : ['user_email', 'user_phone', 'user_avatar']
+      }]})
     .then(x => res.json(x))
 });
 
@@ -217,8 +228,7 @@ horseRouter.post('/', (req,res) => {
         ideal_rider_age : req.body.ideal_rider_age,
         ideal_rider_vehiculed : req.body.ideal_rider_vehiculed,
         ideal_rider_managed_horse: req.body.ideal_rider_managed_horse,
-          
-      }) 
+          }) 
       .then(x => res.json(x))
       .catch(err => res.send(err))
 });
