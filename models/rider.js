@@ -14,8 +14,6 @@ module.exports = (sequelize, DataTypes) => {
         rider_firstname : {
             type: DataTypes.STRING,
             defaultValue: '',
-            // allowNull: false,
-
             validate : {
                 max: 80
             }    
@@ -24,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
         rider_lastname : {
             type : DataTypes.STRING,
             defaultValue: '',
-            // allowNull: false,
             validate : {
                 max : 80
             }
@@ -51,12 +48,9 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         rider_postal_code : {
-            type : DataTypes.INTEGER,
-            defaultValue: 0,
-            validate : {
-                max : 99999
-            }
+            type: DataTypes.STRING,
         },
+
         rider_localisation :{
             type: DataTypes.STRING,
             },
@@ -217,9 +211,9 @@ module.exports = (sequelize, DataTypes) => {
             type : DataTypes.INTEGER,
         },
 
-        // ideal_horse_age: {
-        //     type : DataTypes.INTEGER,
-        // },
+        ideal_horse_age: {
+            type : DataTypes.INTEGER,
+        },
 
         ideal_horse_temper: {
             type : DataTypes.STRING,
@@ -240,11 +234,15 @@ module.exports = (sequelize, DataTypes) => {
             validate : {
                 max : 80
             },
+
+        user_ID : {
+            type: DataTypes.INTEGER,
+        }
+    
         }
     }, {});
     
     Rider.associate = models => {
-        // Rider.belongsTo(models.Ideal_horse)
         Rider.belongsTo(models.User, {foreignKey:'user_ID'})
         Rider.hasMany(models.FavoriteRiders, {
             as : 'FavoriteRiders',

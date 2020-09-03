@@ -91,9 +91,6 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
 
-        // horse_other_fees :{
-        //     type: DataTypes.INTEGER,
-        // },
 
         horse_stroll_along :{
             type: DataTypes.BOOLEAN,
@@ -255,8 +252,6 @@ module.exports = (sequelize, DataTypes) => {
 
     Horse.associate = models => {
         
-        // Horse.belongsTo(models.Ideal_rider, {foreignKey:'idealRider_ID'})
-        // Horse.belongsTo(models.Owner_presentation, {foreignKey:'ownerPres_ID'})
         Horse.belongsTo(models.User, {foreignKey:'user_ID'})
         Horse.hasMany(models.FavoriteHorses, {
             as : 'FavoriteHorses',

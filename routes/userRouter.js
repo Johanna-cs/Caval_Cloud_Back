@@ -89,7 +89,9 @@ userRouter.post('/login', (req, res) => {
   })
 })
 // MY PROFILE 
+
 userRouter.get('/profile', (req, res) => {
+
   // Getting auth header
   let headerAuth  = req.headers['authorization'];
   let user_ID      = jwtUtils.getUserId(headerAuth);
@@ -165,6 +167,49 @@ userRouter.put('/profile', (req, res) => {
       }
     })
 })
+
+// GET User's rider posts 
+userRouter.get('/mypost/rider', (req,res) => {
+  // Getting auth header
+  let headerAuth  = req.headers['authorization'];
+  let user_ID     = jwtUtils.getUserId(headerAuth);
+
+  if (user_ID < 0)
+    return res.status(400).json({ 'error': 'wrong token' })
+
+  models
+    .Rider
+    .findAll({ where: {user_ID : user_ID} })
+    .then(post => {
+      if (post) {
+        res.status(200).json(post) 
+      } else {
+        res.status(400).json({'error' : 'Aucune annonce créée'})
+      }})
+    .catch((err) => res.status(500).json({ 'error': `Impossible de récupérer les données de l'utilisateur` }));
+});
+
+
+// GET User's horse posts 
+userRouter.get('/mypost/horse', (req,res) => {
+  // Getting auth header
+  let headerAuth  = req.headers['authorization'];
+  let user_ID     = jwtUtils.getUserId(headerAuth);
+
+  if (user_ID < 0)
+    return res.status(400).json({ 'error': 'wrong token' })
+
+  models
+    .Horse
+    .findAll({ where: {user_ID : user_ID} })
+    .then(post => {
+      if (post) {
+        res.status(200).json(post) 
+      } else {
+        res.status(400).json({'error' : 'Aucune annonce créée'})
+      }})
+    .catch((err) => res.status(500).json({ 'error': `Impossible de récupérer les données de l'utilisateur` }));
+});
 
 
 // GET User avatar, phone number and email from its ID

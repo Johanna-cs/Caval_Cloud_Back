@@ -6,6 +6,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const jwtUtils = require('../utils/jwt-utils')
 
+
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
@@ -30,22 +31,22 @@ horseRouter.get('/', (req,res) => {
 )
 
 //Display horses closest to the user :
-horseRouter.get('/research/?', (req, res) => {
+horseRouter.get('/search/?', (req, res) => {
 
   // If user has specified is localisation only results concerned are taken in account :
 
-  if (req.query.horse_lat && req.query.horse_long !== null)  { 
+  if (req.query.latitude && req.query.longitude !== null)  { 
 
-    // Récupération des coordonnées GPS du user :
-    let lat = parseFloat(req.query.horse_lat)
-    let lng = parseFloat(req.query.horse_long)
+    // Récupération de la position GPS du user :
+    let lat = parseFloat(req.query.latitude)
+    let lng = parseFloat(req.query.longitude)
 
     // Création du point géométrique :
     let location = Sequelize.literal(`ST_GeomFromText('POINT(${lng} ${lat})', 4326)`)
     let distance = Sequelize.fn('ST_Distance_Sphere', Sequelize.literal('horse_geolocation'), location)
 
-    // Récupération de la distance maximale des résultats par rapport au user, si pas défini le rayon par défaut est de 100km
-    let distanceMax = req.query.distanceMax || 100000
+    // Récupération de la distance maximale des résultats par rapport au user, si pas défini le rayon par défaut est de 1000km
+    let distanceMax = req.query.distanceMax || 1000000
 
     models.Horse
       .findAll({
@@ -54,10 +55,14 @@ horseRouter.get('/research/?', (req, res) => {
         },
         order: distance,
         where : Sequelize.where(distance, {[Op.lte] : distanceMax}), // Seuls les résultats dont la distance max par rapport au user est respectée sont affichés
-        })
-      .then(function(instance){
-          res.json(instance);
-        })
+        include: [{
+          model : models.User, 
+          attributes : ['user_email', 'user_phone', 'user_avatar']
+          }]  
+      })
+      .then(horses => res.json(horses))
+      .catch(err => res.send(err))
+
     } 
     // Else all results are displayed without considering the user localisation
   else {
@@ -67,13 +72,13 @@ horseRouter.get('/research/?', (req, res) => {
         model : models.User, 
         attributes : ['user_email', 'user_phone', 'user_avatar']
       }]})
-    .then(x => res.json(x))
+      .then(horses => res.json(horses))
+    .catch(err => res.send(err))
   }
 })
 
-
 // Display horse with query 
-horseRouter.get('/search/?', (req,res) => {
+horseRouter.get('/aasearch/?', (req,res) => {
   // const postal = req.query.localisation.substr(0,2)
   const min = Number(req.query.height) - 5 || 0;
   const max = Number(req.query.height) + 5 || 200;
@@ -179,8 +184,8 @@ horseRouter.post('/', (req,res) => {
  let user_ID = jwtUtils.getUserId(headerAuth)
 
   // Getting user's GPS coordinates
- let lat = parseFloat(req.body.horse_lat) || 1;
- let lng = parseFloat(req.body.horse_long) || 2 ;
+ let lat = parseFloat(req.body.horse_lat) || null;
+ let lng = parseFloat(req.body.horse_long) || null;
 
   // Le point géométrique pour ensuite calculer les résultats à proximité :
   let location = Sequelize.literal(`ST_GeomFromText('POINT(${lng} ${lat})', 4326)`);

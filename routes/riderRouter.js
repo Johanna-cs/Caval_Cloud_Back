@@ -3,17 +3,13 @@ const app = express();
 const riderRouter = express.Router();
 const models = require('../models'); 
 const Sequelize = require('sequelize');
-const { Op } = require("sequelize")
-const bodyParser = require('body-parser');
+const Op = Sequelize.Op;
 const jwtUtils = require('../utils/jwt-utils')
+const bp = require("body-parser");
 
 app.use(express.json());
-app.use(express.urlencoded({
-  extended: true
-}));
-app.use(bodyParser.urlencoded({
-  extended : true
-}))
+app.use(bp.urlencoded({ extended: true }));
+
 
 
 // // Display all riders :
@@ -31,6 +27,55 @@ riderRouter.get('/', (req,res) => {
   }
 )
 
+
+// Display Rider with query 
+riderRouter.get('/search/?', (req, res) => {
+
+  // If user has specified is localisation only results concerned are taken in account :
+
+  if (req.query.latitude && req.query.longitude !== null)  { 
+
+    // Récupération de la position GPS du user :
+    let lat = parseFloat(req.query.latitude)
+    let lng = parseFloat(req.query.longitude)
+
+    // Création du point géométrique :
+    let location = Sequelize.literal(`ST_GeomFromText('POINT(${lng} ${lat})', 4326)`)
+    let distance = Sequelize.fn('ST_Distance_Sphere', Sequelize.literal('rider_geolocation'), location)
+
+    // Récupération de la distance maximale des résultats par rapport au user, si pas défini le rayon par défaut est de 100km
+    let distanceMax = req.query.distanceMax || 100000
+
+    models.Rider
+      .findAll({
+        attributes: {
+            include: [[Sequelize.fn('ST_Distance_Sphere', Sequelize.literal('rider_geolocation'), location),'distance']]
+        },
+        order: distance,
+        where : Sequelize.where(distance, {[Op.lte] : distanceMax}), // Seuls les résultats dont la distance max par rapport au user est respectée sont affichés
+        include: [{
+          model : models.User, 
+          attributes : ['user_email', 'user_phone', 'user_avatar']
+          }]
+        })
+      .then(riders => res.json(riders))
+      .catch(err => res.send(err))
+
+    } 
+    // Else all results are displayed without considering the user localisation
+  else {
+    models.Rider
+    .findAll({
+      include: [{
+        model : models.User, 
+        attributes : ['user_email', 'user_phone', 'user_avatar']
+      }]})
+      .then(riders => res.json(riders))
+    .catch(err => res.send(err))
+  }
+})
+
+
 // Display rider information from its ID :
 
 riderRouter.get('/:id', (req,res) => {
@@ -45,72 +90,6 @@ riderRouter.get('/:id', (req,res) => {
     .then(x => res.json(x))
 });
 
-// Display Rider with query 
-riderRouter.get('/search/?', (req,res) => {
-
-  const postal = req.query.localisation //.substr(0,2)
-  const min = Number(req.query.age) - 3 || 0
-  const max = Number(req.query.age) + 3 || 99
-  const level = Number(req.query.level) || 0
-  const vehiculed = req.query.vehiculed
-  const budget = req.query.budget || 0
-  const competition = req.query.competition || 0
-  const getLesson = req.query.lesson || 0
-  const managed = req.query.managed
-  const getYears = Number(req.query.years) || 0 
-  const disciplines = req.query.disciplines || ''
-  const ridingFrequency = req.query.frequency || ''
-  const regularity = req.query.regularity || 0
-  const other_discipline = req.query.other_discipline 
-
-
-  models
-  .Rider
-  .findAll({
-    where: {
-      [Op.and]:[
-        {rider_postal_code : { [Op.like]: '%'+ postal  }},
-        {rider_gallop_level : {[Op.gte] : level }},
-        {rider_age : { [Op.between]: [ min , max ]}},
-        {rider_vehiculed : vehiculed || {[Op.or] : [0,1]}},
-        {rider_managed_horse :req.query.managed || {[Op.or] : [0,1]}},
-        {rider_disciplines :{ [Op.like]: `%${req.query.discipline}%`}},
-        {rider_riding_frequency: { [Op.like]: `%${req.query.frequency}%`}},
-        {rider_fixed_day : req.query.fixed || {[Op.or] : [0,1]}},
-        {rider_own_saddle : req.query.saddle || {[Op.or] : [0,1]}},
-        {rider_competition : req.competition}
-      ],
-
-        // 
-
-
-
-      // rider_age : { [Op.between]: [ min , max ]} , // Si l'age est précisé, on sort un résultat avec une fourchette de + ou - 3, sinon on sort tous les résultats
-      // rider_postal_code : req.query.postal || {[Op.lt]: 99999}, // Si le CP est précisé on en tient compte, sinon on prends tous les CP + les CP non renseignés
-      // rider_gallop_level : {[Op.gte] : level }, // Soit le level est précisé, sinon on prend tous les résultats
-      // rider_vehiculed : vehiculed || {[Op.or] : [0,1]}, // Soit l'information est précisée, soit on propose tous les cavaliers, peu importe si véhiculé ou non
-      // rider_budget : { [Op.gte] : budget }, //
-      // rider_competition : competition,
-      // rider_get_lessons : getLesson,
-      // // rider_caracteristic_riding1 : 
-      // // rider_caracteristic_riding2 :
-      // // rider_caracteristic3 : 
-      // // concours possible ou non
-      // rider_competition : {[Op.like] : competition}, // soit non, soit obligatoire, soit possible
-      // // rider_get_lessons : getLesson || {[Op.or] : [0,1]}, // non 
-      // rider_years_of_practice : {[Op.gte] : getYears },
-      // // rider_disciplines : {[Op.like] : disciplines}, // si renseignée, alors uniquement les résultats avec une discipline, sinon tous les résultats
-      // rider_riding_frequency : {[Op.like] : ridingFrequency },
-      // rider_fixed_day : regularity || {[Op.or] : [0,1]},
-      // // rider_agree_other_discipline : other_discipline || {[Op.or] : [0,1]}
-    },
-
-    // include : [models.Ideal_horse]
-  })
-  .then(x => res.json(x))
-
-})
-
 
 // Create a new rider :
 
@@ -121,8 +100,8 @@ riderRouter.post('/', (req,res) => {
  let user_ID = jwtUtils.getUserId(headerAuth)
 
  // Getting user's GPS coordinates
- let lat = parseFloat(req.body.horse_lat) || 1;
- let lng = parseFloat(req.body.horse_long) || 2 ;
+ let lat = parseFloat(req.body.rider_lat) || null;
+ let lng = parseFloat(req.body.rider_long) || null;
 
 // Le point géométrique pour ensuite calculer les résultats à proximité :
 let location = Sequelize.literal(`ST_GeomFromText('POINT(${lng} ${lat})', 4326)`);
