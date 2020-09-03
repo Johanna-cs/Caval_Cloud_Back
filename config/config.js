@@ -4,7 +4,7 @@ module.exports =
 {
   "development": {
     "username": "root",
-    "password": "Pyewaket83!",
+    "password": "s8@%0oui23sLso",
     "database": "caval_cloud",
     "host": "127.0.0.1",
     "dialect": "mysql",
@@ -12,7 +12,7 @@ module.exports =
   },
   "test": {
     "username": "root",
-    "password": "Pyewaket83!",
+    "password": "s8@%0oui23sLso",
     "database": "caval_cloud",
     "host": "127.0.0.1",
     "dialect": "mysql",
