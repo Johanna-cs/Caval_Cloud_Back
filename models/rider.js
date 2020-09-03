@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
 
         rider_firstname : {
             type: DataTypes.STRING,
-            allowNull: false,
+            defaultValue: '',
             validate : {
                 max: 80
             }    
@@ -21,78 +21,97 @@ module.exports = (sequelize, DataTypes) => {
 
         rider_lastname : {
             type : DataTypes.STRING,
-            allowNull: false,
+            defaultValue: '',
             validate : {
                 max : 80
             }
         },
 
         rider_avatar : {
-            type : DataTypes.BLOB,
+            type : DataTypes.STRING,
         },
 
-        rider_photos : {
-            type : DataTypes.BLOB,
+        rider_photo1 : {
+            type : DataTypes.STRING,
+        },
+        rider_photo2 : {
+            type : DataTypes.STRING,
+        },
+        rider_photo3 : {
+            type : DataTypes.STRING,
         },
 
         rider_age : {
-            type : DataTypes.INTEGER,            
-            validate : {
-                max : 120
-            }
+            type : DataTypes.INTEGER,
+            defaultValue: 0,            
 
         },
 
         rider_postal_code : {
-            type : DataTypes.INTEGER,
-            validate : {
-                max : 99999
-            }
+            type: DataTypes.STRING,
         },
+
+        rider_localisation :{
+            type: DataTypes.STRING,
+            },
+    
+        rider_lat : {
+                type: DataTypes.FLOAT,
+            },
+    
+        rider_long : {
+                type: DataTypes.FLOAT,
+            },
+
+        rider_geolocation: {
+            type: DataTypes.GEOMETRY('POINT'),
+            allowNull: true
+        },
+
 
         rider_biography : {
             type : DataTypes.STRING,
             validate : {
                 max : 255
             }
+
         },
 
-        rider_caracteristic1 : {
+        rider_selfWord1 : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
             }
         },
 
-        rider_caracteristic2 : {
+        rider_selfWord2 : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
             }
         },
 
-        rider_caracteristic3 : {
+        rider_selfWord3 : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
             }
         },
 
-        rider_caracteristic_riding1 : {
+        rider_ridingWord1 : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
             }
         },
 
-        rider_caracteristic_riding2 : {
+        rider_ridingWord2 : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
             }
         },
-
-        rider_caracteristic_riding3: {
+        rider_ridingWord3 : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
@@ -101,22 +120,24 @@ module.exports = (sequelize, DataTypes) => {
 
         rider_budget : {
             type : DataTypes.INTEGER,
+            defaultValue: 0
 
         },
 
         rider_currency_budget : {
             type : DataTypes.STRING,
-            validate : {
-                max : 5
-            }
+            defaultValue: '€',
         },
 
         rider_vehiculed : {
-            type : DataTypes.BOOLEAN
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
         },
 
         rider_managed_horse : {
-            type : DataTypes.BOOLEAN
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
+
         },
 
         rider_years_of_practice :{ 
@@ -128,63 +149,105 @@ module.exports = (sequelize, DataTypes) => {
 
         rider_gallop_level : {
             type : DataTypes.INTEGER,
+            defaultValue: 0,
             validate : {
                 max : 99
             }
         },
 
-        rider_others_disciplines : {
-            type : DataTypes.STRING,
-            validate : {
-                max : 80
-            }
+
+        rider_coaching_here : {
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
         },
 
-        rider_get_lessons : {
-            type : DataTypes.BOOLEAN
-        },
-
-        rider_get_coach : {
-            type : DataTypes.BOOLEAN
+        rider_external_coach : {
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
         },
 
         rider_competition : {
-            type : DataTypes.BOOLEAN
-        },
-
-        rider_ridercommunication : {
             type : DataTypes.STRING,
             validate : {
                 max : 80
-            }
+            },
+            defaultValue: ''
         },
 
         rider_riding_frequency :{
             type : DataTypes.STRING,
+            defaultValue: '',
             validate : {
                 max : 80
             }
         },
         
-        rider_own_saddle : {
-            type : DataTypes.BOOLEAN
+        rider_fixed_day : {
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
+
         },
 
-        rider_own_care_equipement : {
-            type : DataTypes.BOOLEAN
+        rider_own_saddle : {
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
         },
 
         rider_disciplines : {
             type : DataTypes.STRING,
+            defaultValue: '',
             validate : {
                 max : 80
             }
-        } 
+        },
+
+        rider_agree_other_discipline : {
+            type : DataTypes.BOOLEAN,
+            defaultValue: 0
+        },
+
+
+        ideal_horse_size: {
+            type : DataTypes.INTEGER,
+        },
+
+        ideal_horse_age: {
+            type : DataTypes.INTEGER,
+        },
+
+        ideal_horse_temper: {
+            type : DataTypes.STRING,
+            validate : {
+                max : 80
+            }
+        },
+
+        ideal_horse_character: {
+            type : DataTypes.STRING,
+            validate : {
+                max : 80
+            }
+        },
+
+        ideal_horse_body_type: {
+            type : DataTypes.STRING,
+            validate : {
+                max : 80
+            },
+
+        user_ID : {
+            type: DataTypes.INTEGER,
+        }
+    
+        }
     }, {});
     
     Rider.associate = models => {
-        Rider.belongsTo(models.Ideal_horse)
-        Rider.belongsTo(models.User)
+        Rider.belongsTo(models.User, {foreignKey:'user_ID'})
+        Rider.hasMany(models.FavoriteRiders, {
+            as : 'FavoriteRiders',
+            foreignKey : 'rider_ID'
+        })
     }
     
     return Rider;

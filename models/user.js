@@ -1,6 +1,5 @@
 'use strict';
 
-
 module.exports = (sequelize, DataTypes) => {
 
     const User = sequelize.define('User', {
@@ -14,63 +13,69 @@ module.exports = (sequelize, DataTypes) => {
 
         user_firstname : {
             type: DataTypes.STRING,
-            allowNull: false,
-            validate : {
-                max: 80,
-            }    
+            allowNull: false,   
         },
 
         user_lastname : {
             type : DataTypes.STRING,
-            allowNull: false,
-            validate : {
-                max : 80,
-            }
+            allowNull: false
         },
 
         user_email : {
             type : DataTypes.STRING,
-            unique: true,
             allowNull: false,
-            validate : {
-                isEmail: true,
-                max: 80,
-            }
+            // validate : {
+            //     isEmail: true
+            // }
         },
 
         user_password : {
             type : DataTypes.STRING,
-            allowNull: false,
-            validate : {
-                min : 5,
-            }
-            
+            allowNull: false
         },
 
         user_accept_CGV : {
             type : DataTypes.BOOLEAN,
             allowNull: false,
-            validate : {
-//                defaultValue : 0,
-            }
+            defaultValue : 0,
+
         },
 
         user_avatar : {
-            type : DataTypes.BLOB,
+            type : DataTypes.STRING,
         },
 
         user_isAdmin : {
             type : DataTypes.BOOLEAN,
             allowNull : false,
             defaultValue : 0
-        }
+        },
+
+        user_phone :{
+            type : DataTypes.STRING
+        },
+        // user_createdAt:{
+        //     type: Sequelize.DATE,
+        //     defaultValue: Sequelize.NOW
+        // }
         
-    }, {});
+    },
+     {
+        timestamps: false,
+        underscored: true
+     });
     
     User.associate = models => {
-        User.hasOne(models.Rider)
-        User.hasMany(models.Horse)
-        User.belongsToMany(models.Horse, {through: 'favorites_horses'})
+        User.hasOne(models.Rider, {foreignKey:'user_ID'})
+        User.hasMany(models.Horse, {foreignKey:'user_ID'})
+        User.hasMany(models.FavoriteHorses, {
+            as : 'FavoriteHorses',
+            foreignKey: 'user_ID'
+        })
+        User.hasMany(models.FavoriteRiders, {
+            as : 'FavoriteRiders',
+            foreignKey: 'user_ID'
+        })
 
         
 
