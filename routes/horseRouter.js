@@ -77,7 +77,6 @@ horseRouter.get('/search/?', (req, res) => {
   }
 })
 
-
 // Display horse information from its ID :
 
 horseRouter.get('/:id', (req,res) => {
