@@ -159,29 +159,29 @@ horseRouter.post('/', (req,res) => {
 
 // Update horse information from its ID :
 
-horseRouter.put('/:id', (req,res) => {
-  models
-    .Horse
-    .update(req.body, {
-      where: {
-          horse_ID: req.params.id
-      }
-  })
-    .then(x => res.json(x))
-});
+// horseRouter.put('/:id', (req,res) => {
+//   models
+//     .Horse
+//     .update(req.body, {
+//       where: {
+//           horse_ID: req.params.id
+//       }
+//   })
+//     .then(x => res.json(x))
+// });
 
 // Delete a horse from its ID :
 
-horseRouter.delete('/:id', (req,res) => {
-  models
-    .Horse
-    .destroy({
-      where: {
-        horse_ID : req.params.id
-      }
-    })
-    .then(res.send("horse deleted"))
-});
+// horseRouter.delete('/:id', (req,res) => {
+//   models
+//     .Horse
+//     .destroy({
+//       where: {
+//         horse_ID : req.params.id
+//       }
+//     })
+//     .then(res.send("horse deleted"))
+// });
 
 
 module.exports = horseRouter

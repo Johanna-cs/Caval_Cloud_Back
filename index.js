@@ -1,10 +1,11 @@
 const express = require('express');
 const models = require('./models')
 const app = express(); 
-const port = 4000;
+const port = process.env.PORT;
 const userRouter = require('./routes/userRouter');
 const riderRouter = require('./routes/riderRouter');
 const horseRouter = require('./routes/horseRouter');
+require('dotenv').config()
 
 
 const cors = require('cors');
@@ -35,6 +36,6 @@ app.use('/api/horses', horseRouter)
 
 models
 .sequelize
-.sync()
+.sync({force : true})
 .then(() => app.listen(port, () => console.log(`App listening on port ${port}`)))
 
