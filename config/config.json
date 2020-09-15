@@ -1,0 +1,34 @@
+ 
+{
+  "development": {
+
+    "username": "ooxdvxutekcjph",
+    "password": "78bfeff39e97196849731da319a2cd5d740ef7d785fd3c133706a54bdd0221f2",
+    "database": "dlp6uvceuk6h9",
+    "host": "ec2-54-246-85-151.eu-west-1.compute.amazonaws.com",
+    "dialect": "postgres",
+    "port": "5432",
+    "operatorsAliases": false,
+    "dialectOptions" : {
+      "ssl" : true
+    }
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "operatorsAliases": false
+  },
+  "production": {
+
+    "username": "ooxdvxutekcjph",
+    "password": "78bfeff39e97196849731da319a2cd5d740ef7d785fd3c133706a54bdd0221f2",
+    "database": "dlp6uvceuk6h9",
+    "host": "ec2-54-246-85-151.eu-west-1.compute.amazonaws.com",
+    "dialect": "postgres",
+    "port": "5432",
+    "operatorsAliases": false
+  }
+}
