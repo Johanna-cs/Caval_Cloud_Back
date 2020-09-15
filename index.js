@@ -1,7 +1,7 @@
 const express = require('express');
 const models = require('./models')
 const app = express(); 
-const port = process.env.PORT;
+var port = process.env.PORT || 3002
 const userRouter = require('./routes/userRouter');
 const riderRouter = require('./routes/riderRouter');
 const horseRouter = require('./routes/horseRouter');
