@@ -65,7 +65,6 @@ module.exports = (sequelize, DataTypes) => {
 
         horse_geolocation: {
                 type: DataTypes.GEOMETRY('POINT'),
-                allowNull: true
             },
     
         horse_coaching_here:{
