@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
         user_accept_CGV : {
             type : DataTypes.BOOLEAN,
             allowNull: false,
-            defaultValue : 0,
+            defaultValue : false,
 
         },
 
